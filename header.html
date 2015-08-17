@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="IE=edge">
+        <title>Nginx Directory</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="/Nginx-Fancyindex-Theme/css/styles.css">
+
+	<script>
+		$(document).ready(function(){var t=$("#list tr");$("#s").keyup(function(){var i,e="^(?=.*\\b"+$.trim($(this).val()).split(/\s+/).join("\\b)(?=.*\\b")+").*$",n=RegExp(e,"i");t.show().filter(function(){return i=$(this).text().replace(/\s+/g," "),!n.test(i)}).hide()})});
+	</script>
+
+    </head>
+    
+
+<body>
+
+
+<div class="wrapper">
+<h1>Nginx Directory</h1>
+<form>
+<input name="filter" id="s" type="search" placeholder="Type to search">
+</form>
+
+
+
+<h1>Directory:
+
