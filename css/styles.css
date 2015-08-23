@@ -74,8 +74,6 @@ input {
   -moz-transition: border linear .2s,box-shadow linear .2s;
   -o-transition: border linear .2s,box-shadow linear .2s;
   transition: border linear .2s,box-shadow linear .2s;
-  background: url(search.svg) no-repeat 211px center;
-  background-size: auto 20px;
 }
 
 input:focus {
