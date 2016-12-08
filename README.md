@@ -26,9 +26,9 @@ fancyindex_exact_size off;
 fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
 fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
 # Ignored files will not show up in the directory listing, but will still be public.
-fancyindex_ignore "examplefile.html;
-# Making sure folder where files are don't show up in the listing.
-fancyindex_ignore "Nginx-Fancyindex-Theme;
+fancyindex_ignore "examplefile.html";
+# Making sure folder where these files are do not show up in the listing.
+fancyindex_ignore "Nginx-Fancyindex-Theme";
 # Maximum file name length in bytes, change as you like.
 fancyindex_name_length 255;
 ```
@@ -49,17 +49,15 @@ fancyindex_name_length 255;
 
 ### :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/Nginx-Fancyindex-Theme.svg)](https://github.com/Naereen/Nginx-Fancyindex-Theme/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
-© [Lilian Besson](https://GitHub.com/Naereen), 2016-17.
+© [Lilian Besson](https://GitHub.com/Naereen), 2016.
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/Nginx-Fancyindex-Theme/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
 [![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/Nginx-Fancyindex-Theme/README.md?pixel)](https://GitHub.com/Naereen/Nginx-Fancyindex-Theme/)
 
 [![ForTheBadge built-with-swag](http://ForTheBadge.com/images/badges/built-with-swag.svg)](https://GitHub.com/Naereen/)
-
 [![ForTheBadge uses-js](http://ForTheBadge.com/images/badges/uses-js.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-html](http://ForTheBadge.com/images/badges/uses-html.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-css](http://ForTheBadge.com/images/badges/uses-css.svg)](http://ForTheBadge.com)
-
 [![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
