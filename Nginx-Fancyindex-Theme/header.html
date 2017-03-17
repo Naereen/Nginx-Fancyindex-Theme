@@ -5,18 +5,8 @@
         <meta http-equiv="x-ua-compatible" content="IE=edge">
         <title>Nginx Directory</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/Nginx-Fancyindex-Theme/css/styles.min.css">
-        <script type="text/javascript" src="/Nginx-Fancyindex-Theme/js/jquery.min.js"></script>
-        <script type="text/javascript">
-                $(document).ready(function(){var t=$("#list tr");$("#s").keyup(function(){var i,e="^(?=.*\\b"+$.trim($(this).val()).split(/\s+/).join("\\b)(?=.*\\b")+").*$",n=RegExp(e,"i");t.show().filter(function(){return i=$(this).text().replace(/\s+/g," "),!n.test(i)}).hide()})});
-        </script>
+        <link rel="stylesheet" href="/Nginx-Fancyindex-Theme/styles.css">
     </head>
 <body>
 
-<div class="wrapper">
-<h1>Nginx Directory (Search)</h1>
-<form>
-    <input name="filter" id="s" type="search" placeholder="Type to search...">
-</form>
-
-<h1>Directory:
+<h1>Directory:</h1>

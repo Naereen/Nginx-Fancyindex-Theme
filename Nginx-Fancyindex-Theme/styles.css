@@ -24,7 +24,7 @@ a:hover {
   color: #000;
 }
 
-.wrapper {
+body {
   margin: 0 auto;
   padding-top: 20px;
   max-width: 800px;
@@ -88,7 +88,7 @@ input::-moz-focus-inner {
   border: 0;
 }
 
-input[type="search"] {
+#search {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -103,10 +103,6 @@ input[type="search"] {
   -ms-transition: all 300ms ease-in;
   -o-transition: all 300ms ease-in;
   transition: all 300ms ease-in;
-}
-
-input[type="search"]::-webkit-search-decoration,input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
 }
 
 a.clear,a.clear:link,a.clear:visited {
@@ -194,12 +190,12 @@ tr.parent a {
 }
 
 
-#footer {
+footer {
   font-size:12px;
   text-align:center;
 }
 
-#footer a {
+footer a {
   text-decoration: underline;
   color:#990012;
 }
