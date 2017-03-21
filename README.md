@@ -9,10 +9,10 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 ## Usage
 
 1. Make sure you have the fancyindex module compiled with nginx, either by compiling it yourself or installing nginx via the full distribution (paquet ``nginx-extras``).
-1. Include the content of [fancyindex.conf](fancyindex.conf) in your location directive (``location / {.....}``) in your nginx config (usually ``nginx.conf``).
-1. Move the ``Nginx-Fancyindex-Theme/`` folder to the root of the site directory.
-1. Restart/reload nginx.
-1. Check that it's working, and enjoy!
+2. Include the content of [fancyindex.conf](fancyindex.conf) in your location directive (``location / {.....}``) in your nginx config (usually ``nginx.conf``).
+3. Move the ``Nginx-Fancyindex-Theme/`` folder to the root of the site directory.
+4. Restart/reload nginx.
+5. Check that it's working, and enjoy!
 
 ## Configuration
 
