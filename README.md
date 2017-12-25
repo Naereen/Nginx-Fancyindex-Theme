@@ -16,19 +16,19 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 
 ## Configuration
 
-A standard config looks something like this:
+A standard config looks something like this (use `-light` for the default light theme, or `-dark` for a dark theme):
 
 ```bash
 fancyindex on;
 fancyindex_localtime on;
 fancyindex_exact_size off;
 # Specify the path to the header.html and foother.html files (server-wise)
-fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
-fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
+fancyindex_header "/Nginx-Fancyindex-Theme-light/header.html";
+fancyindex_footer "/Nginx-Fancyindex-Theme-light/footer.html";
 # Ignored files will not show up in the directory listing, but will still be public.
 fancyindex_ignore "examplefile.html";
 # Making sure folder where these files are do not show up in the listing.
-fancyindex_ignore "Nginx-Fancyindex-Theme";
+fancyindex_ignore "Nginx-Fancyindex-Theme-light";
 # Maximum file name length in bytes, change as you like.
 fancyindex_name_length 255;
 ```
