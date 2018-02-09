@@ -7,7 +7,7 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 [![made-for-nginx](https://img.shields.io/badge/Made%20for-nginx-1f425f.svg)](https://www.nginx.org/)
 
 ### Demonstration of the Light theme:
-![Demo #5](screenshots/Ninx-Fancyindex-Theme__example5.png "Example of Nginx-Fancyindex-Theme-light")
+![Demo #5](screenshots/Nginx-Fancyindex-Theme__example5.png "Example of Nginx-Fancyindex-Theme-light")
 
 ## Usage
 
@@ -102,29 +102,29 @@ If you want to conserve a few more bytes in network transmissions enable gzip on
 
 ## Examples
 ### Showing a list of files (without search):
-![Demo #2](screenshots/Ninx-Fancyindex-Theme__example2.png "Example of Nginx-Fancyindex-Theme")
+![Demo #2](screenshots/Nginx-Fancyindex-Theme__example2.png "Example of Nginx-Fancyindex-Theme")
 
 ---
 
 ### Filter a list of files (with search):
-![Demo #1](screenshots/Ninx-Fancyindex-Theme__example1.png "Example of Nginx-Fancyindex-Theme")
+![Demo #1](screenshots/Nginx-Fancyindex-Theme__example1.png "Example of Nginx-Fancyindex-Theme")
 
 ---
 
 ### Filter a list of directories (with search):
-![Demo #3](screenshots/Ninx-Fancyindex-Theme__example3.png "Example of Nginx-Fancyindex-Theme")
+![Demo #3](screenshots/Nginx-Fancyindex-Theme__example3.png "Example of Nginx-Fancyindex-Theme")
 
 ---
 
 ### Filter a list of directories (with search) -- Dark theme:
 It also shows the automatic inclusion of `HEADER.md` file and `README.md` file.
 
-![Demo #4](screenshots/Ninx-Fancyindex-Theme__example4.png "Example of Nginx-Fancyindex-Theme-dark")
+![Demo #4](screenshots/Nginx-Fancyindex-Theme__example4.png "Example of Nginx-Fancyindex-Theme-dark")
 
 ### Include HEADER and README files automatically:
 Another demo:
 
-![Demo #6](screenshots/Ninx-Fancyindex-Theme__example6.png "Example of Nginx-Fancyindex-Theme-light")
+![Demo #6](screenshots/Nginx-Fancyindex-Theme__example6.png "Example of Nginx-Fancyindex-Theme-light")
 
 ---
 
