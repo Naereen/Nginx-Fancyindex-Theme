@@ -2,9 +2,12 @@
 A responsive theme for [Nginx](https://www.nginx.org/) Fancyindex module. Minimal, modern and simple.
 Comes with a search form, aims to handle thousands of files without any problems.
 
-The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyindex).
+The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyindex) (by @aperezdc).
 
 [![made-for-nginx](https://img.shields.io/badge/Made%20for-nginx-1f425f.svg)](https://www.nginx.org/)
+
+### Demonstration of the Light theme:
+![Demo #5](Nginx-Fancyindex-Theme__example5.png "Example of Nginx-Fancyindex-Theme-light")
 
 ## Usage
 
@@ -109,6 +112,13 @@ If you want to conserve a few more bytes in network transmissions enable gzip on
 
 ### Filter a list of directories (with search):
 ![Demo #3](Nginx-Fancyindex-Theme__example3.png "Example of Nginx-Fancyindex-Theme")
+
+---
+
+### Filter a list of directories (with search) -- Dark theme:
+![Demo #4](Nginx-Fancyindex-Theme__example4.png "Example of Nginx-Fancyindex-Theme-dark")
+
+---
 
 ### :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/Nginx-Fancyindex-Theme.svg)](https://github.com/Naereen/Nginx-Fancyindex-Theme/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
