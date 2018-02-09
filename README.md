@@ -16,6 +16,7 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 3. Move the ``Nginx-Fancyindex-Theme/`` folder to the root of the site directory.
 4. Restart/reload nginx.
 5. Check that it's working, and enjoy!
+6. A new feature is the automatic inclusion of `HEADER.md` and `README.md` file from the current directory (if any), as shown in the example above. It uses [JQuery](https://jquery.com/) and [ShowDown.js](https://github.com/showdownjs/showdown/), it is badly written but it works perfectly! I wanted this feature as I have it for Apache (see [this project](https://bitbucket.org/lbesson/autoindex-strapdown)).
 
 ## Configuration
 
@@ -116,7 +117,14 @@ If you want to conserve a few more bytes in network transmissions enable gzip on
 ---
 
 ### Filter a list of directories (with search) -- Dark theme:
+It also shows the automatic inclusion of `HEADER.md` file and `README.md` file.
+
 ![Demo #4](Nginx-Fancyindex-Theme__example4.png "Example of Nginx-Fancyindex-Theme-dark")
+
+### Include HEADER and README files automatically:
+Another demo:
+
+![Demo #6](Nginx-Fancyindex-Theme__example6.png "Example of Nginx-Fancyindex-Theme-light")
 
 ---
 
