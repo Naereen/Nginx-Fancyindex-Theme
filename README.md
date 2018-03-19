@@ -34,6 +34,8 @@ fancyindex_ignore "examplefile.html";
 # Making sure folder where these files are do not show up in the listing.
 fancyindex_ignore "Nginx-Fancyindex-Theme-light";
 # Maximum file name length in bytes, change as you like.
+# Warning: if you use an old version of ngx-fancyindex, comment the last line if you
+# encounter a bug. See https://github.com/Naereen/Nginx-Fancyindex-Theme/issues/10
 fancyindex_name_length 255;
 ```
 
