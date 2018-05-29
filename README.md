@@ -11,12 +11,12 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 
 ## Usage
 
-1. Make sure you have the fancyindex module compiled with nginx, either by compiling it yourself or installing nginx via the full distribution (paquet ``nginx-extras``).
-2. Include the content of [fancyindex.conf](fancyindex.conf) in your location directive (``location / {.....}``) in your nginx config (usually ``nginx.conf``).
-3. Move the ``Nginx-Fancyindex-Theme/`` folder to the root of the site directory.
+1. Make sure you have the fancyindex module compiled with nginx, either by compiling it yourself or installing nginx via the full distribution (paquet `nginx-extras`).
+2. Include the content of [fancyindex.conf](fancyindex.conf) in your location directive (`location / {.....}`) in your nginx config (usually `nginx.conf`).
+3. Move the `Nginx-Fancyindex-Theme-light/` *and/or* `Nginx-Fancyindex-Theme-dark/` folder to the root of the site directory.
 4. Restart/reload nginx.
 5. Check that it's working, and enjoy!
-6. A new feature is the automatic inclusion of `HEADER.md` and `README.md` file from the current directory (if any), as shown in the example above. It uses [JQuery](https://jquery.com/) and [ShowDown.js](https://github.com/showdownjs/showdown/), it is badly written but it works perfectly! I wanted this feature as I have it for Apache (see [this project](https://bitbucket.org/lbesson/autoindex-strapdown)).
+6. A new feature is the automatic inclusion of `HEADER.md` and `README.md` file from the current directory (if any), as shown in the example above. It uses [JQuery](https://jquery.com/) and [ShowDown.js](https://github.com/showdownjs/showdown/), it is not so cleanly written but it works perfectly! I wanted this feature as I have it for Apache (see [this project](https://bitbucket.org/lbesson/autoindex-strapdown)).
 
 ## Configuration
 
@@ -26,7 +26,8 @@ A standard config looks something like this (use `-light` for the default light 
 fancyindex on;
 fancyindex_localtime on;
 fancyindex_exact_size off;
-# Specify the path to the header.html and foother.html files (server-wise)
+# Specify the path to the header.html and foother.html files, that are server-wise,
+# ie served from root of the website. Remove the leading '/' otherwise.
 fancyindex_header "/Nginx-Fancyindex-Theme-light/header.html";
 fancyindex_footer "/Nginx-Fancyindex-Theme-light/footer.html";
 # Ignored files will not show up in the directory listing, but will still be public.
@@ -123,7 +124,7 @@ It also shows the automatic inclusion of `HEADER.md` file and `README.md` file.
 
 ![Demo #4](screenshots/Nginx-Fancyindex-Theme__example4.png "Example of Nginx-Fancyindex-Theme-dark")
 
-### Include HEADER and README files automatically:
+### Include `HEADER` and `README` files automatically:
 Another demo:
 
 ![Demo #6](screenshots/Nginx-Fancyindex-Theme__example6.png "Example of Nginx-Fancyindex-Theme-light")
