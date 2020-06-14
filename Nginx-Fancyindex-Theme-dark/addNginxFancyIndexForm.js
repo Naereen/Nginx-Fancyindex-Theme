@@ -18,8 +18,9 @@ var listItems = [].slice.call(document.querySelectorAll('#list tbody tr'));
 
 input.addEventListener('keyup', function () {
     var i,
-        e = "^(?=.*\\b" + this.value.trim().split(/\s+/).join("\\b)(?=.*\\b") + ").*$",
-        n = RegExp(e, "i");
+    // Word sequence _matching_ to input. All, except last, words must be _complete_.
+    e = "(^|.*[^\\pL])" + this.value.trim().split(/\s+/).join("([^\\pL]|[^\\pL].*[^\\pL])") + ".*$",
+    n = RegExp(e, "i");
     listItems.forEach(function(item) {
         item.removeAttribute('hidden');
     });

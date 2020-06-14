@@ -2,9 +2,10 @@
 <footer>
     Theme available on <a href="https://GitHub.com/Naereen/Nginx-Fancyindex-Theme">GitHub</a> by <a href="https://GitHub.com/Naereen">Naereen</a>, © 2015-18, released under <a href="https://lbesson.mit-license.org/">the MIT License</a>.
 </footer>
-<script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/addNginxFancyIndexForm.js"></script>
-<script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/showdown.min.js"></script>
-<script type="text/javascript" defer>
+    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
+    <script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/addNginxFancyIndexForm.js"></script>
+    <script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/showdown.min.js"></script>
+    <script type="text/javascript" defer>
     var converter = new showdown.Converter();
     $( "#raw_include_HEADER_md" ).load( "HEADER.md", function (){
         var elem = document.querySelector("#raw_include_HEADER_md");
