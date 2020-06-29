@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/addNginxFancyIndexForm.js"></script>
     <script type="text/javascript" src="/Nginx-Fancyindex-Theme-dark/showdown.min.js"></script>
     <script type="text/javascript" defer>
-    var converter = new showdown.Converter();
+    var converter = new showdown.Converter({tables: true});
     $( "#raw_include_HEADER_md" ).load( "HEADER.md", function (){
         var elem = document.querySelector("#raw_include_HEADER_md");
         // strip leading whitespace so it isn't evaluated as code
