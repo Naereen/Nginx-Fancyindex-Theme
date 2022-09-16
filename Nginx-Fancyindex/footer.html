@@ -1,0 +1,42 @@
+<div id="raw_include_README_md"></div>
+<footer>
+    Theme available on <a href="https://GitHub.com/Naereen/Nginx-Fancyindex-Theme">GitHub</a> by <a href="https://GitHub.com/Naereen">Naereen</a>, © 2015-18, released under <a href="https://lbesson.mit-license.org/">the MIT License</a>.
+</footer>
+    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
+    <script type="text/javascript" src="/Nginx-Fancyindex-Theme/addNginxFancyIndexForm.js"></script>
+    <script type="text/javascript" src="/Nginx-Fancyindex-Theme/showdown.min.js"></script>
+    <script type="text/javascript" defer>
+    var converter = new showdown.Converter({tables: true});
+    $( "#raw_include_HEADER_md" ).load( "HEADER.md", function (){
+        var elem = document.querySelector("#raw_include_HEADER_md");
+        // strip leading whitespace so it isn't evaluated as code
+        var text = elem.innerHTML;
+        // console.log("text =", text);
+        text = text.replace(/\n[ ]*/g, '\n');
+        // console.log("text =", text);
+        var html = converter.makeHtml(text);
+        // console.log("html =", html);
+        // here, have some HTML
+        elem.innerHTML = html;
+    });
+    $( "#raw_include_README_md" ).load( "README.md", function (){
+        var elem = document.querySelector("#raw_include_README_md");
+        // strip leading whitespace so it isn't evaluated as code
+        var text = elem.innerHTML;
+        // console.log("text =", text);
+        text = text.replace(/\n[ ]*/g, '\n');
+        // console.log("text =", text);
+        var html = converter.makeHtml(text);
+        // console.log("html =", html);
+        // here, have some HTML
+        elem.innerHTML = html;
+    });
+</script>
+</body>
+</html>
+<!--
+footer.html
+© 2015-18, Lilian Besson (Naereen) and contributors,
+open-sourced under the MIT License, https://lbesson.mit-license.org/
+hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
+-->
