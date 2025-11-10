@@ -1,8 +1,5 @@
 // addNginxFancyIndexForm.js
 // Add a small form to filter through the output of Nginx FancyIndex page
-// © 2017, Lilian Besson (Naereen) and contributors,
-// open-sourced under the MIT License, https://lbesson.mit-license.org/
-// hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
 var form = document.createElement('form');
 var input = document.createElement('input');
 
