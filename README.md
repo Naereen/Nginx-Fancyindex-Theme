@@ -1,6 +1,6 @@
 # Nginx-Fancyindex-Theme
 A responsive theme for [Nginx](https://www.nginx.org/) Fancyindex module. Minimal, modern and simple.
-Comes with a search form, aims to handle thousands of files without any problems.
+Comes with a search form, a light/dark theme toggle, and aims to handle thousands of files without any problems.
 
 The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyindex) (by @aperezdc).
 
@@ -13,14 +13,14 @@ The fancyindex module can be found [here](https://github.com/aperezdc/ngx-fancyi
 
 1. Make sure you have the fancyindex module compiled with nginx, either by compiling it yourself or installing nginx via the full distribution (paquet `nginx-extras`).
 2. Include the content of [fancyindex.conf](fancyindex.conf) in your location directive (`location / {.....}`) in your nginx config (usually `nginx.conf`).
-3. Move the `Nginx-Fancyindex-Theme-light/` *and/or* `Nginx-Fancyindex-Theme-dark/` folder to the root of the site directory.
+3. Move the `Nginx-Fancyindex/` folder to the root of the site directory.
 4. Restart/reload nginx.
 5. Check that it's working, and enjoy!
 6. A new feature is the automatic inclusion of `HEADER.md` and `README.md` file from the current directory (if any), as shown in the example above. It uses [JQuery](https://jquery.com/) and [ShowDown.js](https://github.com/showdownjs/showdown/), it is not so cleanly written but it works perfectly! I wanted this feature as I have it for Apache (see [this project](https://bitbucket.org/lbesson/autoindex-strapdown)).
 
 ## Configuration
 
-A standard config looks something like this (use `-light` for the default light theme, or `-dark` for a dark theme):
+A standard config looks something like this (the UI now ships with both light and dark themes that can be toggled in the browser):
 
 ```bash
 fancyindex on;
@@ -28,12 +28,12 @@ fancyindex_localtime on;
 fancyindex_exact_size off;
 # Specify the path to the header.html and foother.html files, that are server-wise,
 # ie served from root of the website. Remove the leading '/' otherwise.
-fancyindex_header "/Nginx-Fancyindex-Theme-light/header.html";
-fancyindex_footer "/Nginx-Fancyindex-Theme-light/footer.html";
+fancyindex_header "/Nginx-Fancyindex/header.html";
+fancyindex_footer "/Nginx-Fancyindex/footer.html";
 # Ignored files will not show up in the directory listing, but will still be public.
 fancyindex_ignore "examplefile.html";
 # Making sure folder where these files are do not show up in the listing.
-fancyindex_ignore "Nginx-Fancyindex-Theme-light";
+fancyindex_ignore "Nginx-Fancyindex";
 ```
 
 If you want to conserve a few more bytes in network transmissions enable gzip on the served assets.
