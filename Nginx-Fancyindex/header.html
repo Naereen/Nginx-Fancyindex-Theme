@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Nginx directory listing with search and theme support">
+        <meta name="description" content="Nginx directory listing with search, sorting, and theme support">
         <meta name="color-scheme" content="light dark">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; worker-src 'self';">
         <title>Nginx Directory</title>
         <link rel="dns-prefetch" href="https://unpkg.com">
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
         <link rel="stylesheet" href="/Nginx-Fancyindex/styles.css">
     </head>
 <body class="theme-light">
