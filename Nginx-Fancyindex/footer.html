@@ -9,6 +9,38 @@
     (function () {
         var converter = new showdown.Converter({ tables: true });
 
+        function stubUnavailableHardwareApis() {
+            if (typeof window === 'undefined') {
+                return;
+            }
+
+            var apis = ['Bluetooth', 'USB', 'Serial', 'HID'];
+
+            apis.forEach(function (name) {
+                if (typeof window[name] !== 'undefined') {
+                    return;
+                }
+
+                var stub = {};
+
+                Object.defineProperty(stub, 'disable', {
+                    value: function () {
+                        return false;
+                    },
+                    writable: false,
+                    configurable: true
+                });
+
+                try {
+                    window[name] = stub;
+                } catch (error) {
+                    /* If we cannot define the stub, ignore the failure. */
+                }
+            });
+        }
+
+        stubUnavailableHardwareApis();
+
         function findListingLink(name) {
             var links = document.querySelectorAll('#list tbody tr td a');
             for (var i = 0; i < links.length; i += 1) {
