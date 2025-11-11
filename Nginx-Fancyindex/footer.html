@@ -2,54 +2,45 @@
 <footer>
     Internal Use Only.
 </footer>
-    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
-    <script type="text/javascript" src="/Nginx-Fancyindex/addNginxFancyIndexForm.js"></script>
-    <script type="text/javascript" src="/Nginx-Fancyindex/showdown.min.js"></script>
-    <script type="text/javascript" defer>
+    <script src="https://unpkg.com/xregexp/xregexp-all.js" defer></script>
+    <script src="/Nginx-Fancyindex/addNginxFancyIndexForm.js" defer></script>
+    <script src="/Nginx-Fancyindex/showdown.min.js" defer></script>
+    <script defer>
     (function () {
-        var converter = new showdown.Converter({ tables: true });
+        'use strict';
+
+        const converter = new showdown.Converter({ tables: true });
 
         function findListingLink(name) {
-            var links = document.querySelectorAll('#list tbody tr td a');
-            for (var i = 0; i < links.length; i += 1) {
-                if (links[i].textContent.trim() === name) {
-                    return links[i];
-                }
-            }
-            return null;
+            const links = document.querySelectorAll('#list tbody tr td a');
+            return Array.from(links).find(link => link.textContent.trim() === name) || null;
         }
 
         function removeElement(element) {
-            if (element && element.parentNode) {
-                element.parentNode.removeChild(element);
-            }
+            element?.remove();
         }
 
         function renderMarkdown(targetId, source) {
-            var target = document.getElementById(targetId);
+            const target = document.getElementById(targetId);
             if (!target || !findListingLink(source)) {
                 removeElement(target);
                 return;
             }
 
-            var request = new XMLHttpRequest();
-            request.open('GET', source, true);
-
-            request.onload = function () {
-                if (request.status < 200 || request.status >= 300) {
+            fetch(source)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    const normalized = text.replace(/\n[ ]*/g, '\n');
+                    target.innerHTML = converter.makeHtml(normalized);
+                })
+                .catch(() => {
                     removeElement(target);
-                    return;
-                }
-
-                var text = request.responseText.replace(/\n[ ]*/g, '\n');
-                target.innerHTML = converter.makeHtml(text);
-            };
-
-            request.onerror = function () {
-                removeElement(target);
-            };
-
-            request.send();
+                });
         }
 
         renderMarkdown('raw_include_HEADER_md', 'HEADER.md');

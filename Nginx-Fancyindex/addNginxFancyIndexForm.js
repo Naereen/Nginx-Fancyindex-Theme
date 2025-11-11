@@ -1,100 +1,100 @@
 // addNginxFancyIndexForm.js
 // Enhances the Nginx FancyIndex page with search filtering and a theme toggle.
+// Optimized for modern browsers: Chrome, Firefox, Safari, Edge
 
-var THEME_STORAGE_KEY = 'fancyindex-theme';
+(function () {
+        'use strict';
 
-var form = document.createElement('form');
-var input = document.createElement('input');
-var heading = document.querySelector('h1');
-var controls = document.createElement('div');
-var toggle = document.createElement('button');
-var body = document.body;
-var mediaQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+        const THEME_STORAGE_KEY = 'fancyindex-theme';
 
-controls.className = 'directory-controls';
+        const form = document.createElement('form');
+        const input = document.createElement('input');
+        const heading = document.querySelector('h1');
+        const controls = document.createElement('div');
+        const toggle = document.createElement('button');
+        const body = document.body;
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-toggle.type = 'button';
-toggle.className = 'theme-toggle';
-toggle.setAttribute('aria-pressed', 'false');
+        controls.className = 'directory-controls';
 
-toggle.addEventListener('click', function () {
-    var nextTheme = body.classList.contains('theme-dark') ? 'light' : 'dark';
-    applyTheme(nextTheme);
-    storeTheme(nextTheme);
-});
+        toggle.type = 'button';
+        toggle.className = 'theme-toggle';
+        toggle.setAttribute('aria-pressed', 'false');
+        toggle.setAttribute('aria-label', 'Toggle theme');
 
-controls.appendChild(toggle);
+        toggle.addEventListener('click', () => {
+                const nextTheme = body.classList.contains('theme-dark') ? 'light' : 'dark';
+                applyTheme(nextTheme);
+                storeTheme(nextTheme);
+        });
 
-input.name = 'filter';
-input.id = 'search';
-input.placeholder = 'Type to search...';
-form.appendChild(input);
-controls.appendChild(form);
+        controls.appendChild(toggle);
 
-if (heading && heading.parentNode) {
-    heading.after(controls);
-} else {
-    document.body.insertBefore(controls, document.body.firstChild);
-}
+        input.name = 'filter';
+        input.id = 'search';
+        input.type = 'search';
+        input.placeholder = 'Type to search...';
+        input.setAttribute('aria-label', 'Search directory');
+        form.appendChild(input);
+        controls.appendChild(form);
 
-var listItems = [].slice.call(document.querySelectorAll('#list tbody tr'));
+        if (heading?.parentNode) {
+                heading.after(controls);
+        } else {
+                document.body.insertBefore(controls, document.body.firstChild);
+        }
 
-input.addEventListener('keyup', function () {
-    var i,
-        expression = "(^|.*[^\\pL])" + this.value.trim().split(/\s+/).join("([^\\pL]|[^\\pL].*[^\\pL])") + ".*$",
-        matcher = RegExp(expression, 'i');
+        const listItems = Array.from(document.querySelectorAll('#list tbody tr'));
 
-    listItems.forEach(function (item) {
-        item.removeAttribute('hidden');
-    });
+        // Debounce search for better performance
+        let searchTimeout;
+        input.addEventListener('input', function () {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                        const expression = "(^|.*[^\\pL])" + this.value.trim().split(/\s+/).join("([^\\pL]|[^\\pL].*[^\\pL])") + ".*$";
+                        const matcher = RegExp(expression, 'i');
 
-    listItems.filter(function (item) {
-        i = item.querySelector('td').textContent.replace(/\s+/g, ' ');
-        return !matcher.test(i);
-    }).forEach(function (item) {
-        item.hidden = true;
-    });
-});
+                        listItems.forEach(item => {
+                                const text = item.querySelector('td')?.textContent.replace(/\s+/g, ' ') || '';
+                                item.hidden = !matcher.test(text);
+                        });
+                }, 150);
+        }, { passive: true });
 
-function getStoredTheme() {
-    try {
-        return localStorage.getItem(THEME_STORAGE_KEY);
-    } catch (error) {
-        return null;
-    }
-}
+        function getStoredTheme() {
+                try {
+                        return localStorage.getItem(THEME_STORAGE_KEY);
+                } catch (error) {
+                        return null;
+                }
+        }
 
-function storeTheme(theme) {
-    try {
-        localStorage.setItem(THEME_STORAGE_KEY, theme);
-    } catch (error) {
-        /* noop */
-    }
-}
+        function storeTheme(theme) {
+                try {
+                        localStorage.setItem(THEME_STORAGE_KEY, theme);
+                } catch (error) {
+                        // Storage not available
+                }
+        }
 
-function applyTheme(theme) {
-    var normalized = theme === 'dark' ? 'dark' : 'light';
+        function applyTheme(theme) {
+                const normalized = theme === 'dark' ? 'dark' : 'light';
 
-    body.classList.remove('theme-light', 'theme-dark');
-    body.classList.add('theme-' + normalized);
+                body.classList.remove('theme-light', 'theme-dark');
+                body.classList.add(`theme-${normalized}`);
 
-    var isDark = normalized === 'dark';
-    toggle.setAttribute('aria-pressed', String(isDark));
-    toggle.textContent = isDark ? 'Switch to light theme' : 'Switch to dark theme';
-}
+                const isDark = normalized === 'dark';
+                toggle.setAttribute('aria-pressed', String(isDark));
+                toggle.textContent = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+        }
 
-var storedTheme = getStoredTheme();
-var preferredTheme = storedTheme || (mediaQuery && mediaQuery.matches ? 'dark' : 'light');
-applyTheme(preferredTheme);
+        const storedTheme = getStoredTheme();
+        const preferredTheme = storedTheme || (mediaQuery.matches ? 'dark' : 'light');
+        applyTheme(preferredTheme);
 
-if (!storedTheme && mediaQuery) {
-    var onSchemeChange = function (event) {
-        applyTheme(event.matches ? 'dark' : 'light');
-    };
-
-    if (typeof mediaQuery.addEventListener === 'function') {
-        mediaQuery.addEventListener('change', onSchemeChange);
-    } else if (typeof mediaQuery.addListener === 'function') {
-        mediaQuery.addListener(onSchemeChange);
-    }
-}
+        if (!storedTheme) {
+                mediaQuery.addEventListener('change', (event) => {
+                        applyTheme(event.matches ? 'dark' : 'light');
+                });
+        }
+}());

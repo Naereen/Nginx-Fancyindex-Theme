@@ -1,9 +1,27 @@
 /* styles.css
 Combined light and dark themes for the Nginx FancyIndex page.
+Optimized for modern browsers: Chrome, Firefox, Safari, Edge
 */
 
-* {
+*,
+*::before,
+*::after {
         box-sizing: border-box;
+}
+
+html {
+        scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+        }
 }
 
 :root {
@@ -53,12 +71,12 @@ body.theme-dark {
 }
 
 html {
-        font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
         color: var(--muted);
         font-weight: 300;
         font-size: clamp(14px, 1.2vw, 16px);
         line-height: 1.6;
-        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
         background-color: var(--bg);
 }
 
@@ -145,7 +163,7 @@ a.clear:hover {
         background: var(--toggle-hover-bg);
 }
 
-.theme-toggle:focus {
+.theme-toggle:focus-visible {
         outline: none;
         box-shadow: var(--focus);
 }
@@ -167,29 +185,20 @@ input {
         font: 300 0.95rem/1.2 'Roboto', system-ui, sans-serif;
         transition: border-color 150ms ease-in, box-shadow 150ms ease-in;
 }
-input:focus {
+input:focus-visible {
         outline: 0;
         border-color: var(--focus-border);
         box-shadow: var(--focus);
-}
-input::-moz-focus-inner {
-        padding: 0;
-        border: 0;
 }
 
 #search {
         color: var(--fg);
         background-color: var(--bg-elev);
         display: block;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline: auto;
         width: min(100%, 320px);
         margin-top: 0;
-        -webkit-box-sizing: content-box;
-        -moz-box-sizing: content-box;
-        box-sizing: content-box;
-        -webkit-appearance: textfield;
-        transition: all 300ms ease-in;
+        appearance: textfield;
 }
 
 table {
