@@ -6,7 +6,9 @@ A responsive theme for [Nginx](https://www.nginx.org/) [Fancyindex module](https
   - [Usage](#usage)
     - [FancyIndex Installation sources](#fancyindex-installation-sources)
     - [Nginx Configuration](#nginx-configuration)
+    - [RHEL Procedure](#rhel-procedure)
   - [Configuration Options](#configuration-options)
+  - [Javascript Explanation](#javascript-explanation)
   - [Screenshots](#screenshots)
 
 ## Usage
@@ -47,6 +49,8 @@ http {
 
 ```
 
+### RHEL Procedure
+
 ```bash
 # on Fedora-based OS (RHEL/CentOS/Rocky)
 dnf install nginx-mod-fancyindex
@@ -72,6 +76,12 @@ fancyindex_ignore "examplefile.html";
 # Making sure folder where these files are do not show up in the listing.
 fancyindex_ignore "Nginx-Fancyindex";
 ```
+
+## Javascript Explanation
+
+- `addNginxFancyIndexForm.js` enhances the listing with search filtering, persistent theme selection, and dark-mode responsiveness.
+- `jquery.min.js` bundles jQuery 2.1.0 for DOM querying, event handling, and AJAX utilities used across the page.
+- `showdown.min.js` provides the Showdown Markdown-to-HTML converter leveraged when loading optional documentation files
 
 ## Screenshots
 
