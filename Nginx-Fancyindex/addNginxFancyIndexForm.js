@@ -51,8 +51,20 @@
         input.addEventListener('input', function () {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
-                        const expression = "(^|.*[^\\pL])" + this.value.trim().split(/\s+/).join("([^\\pL]|[^\\pL].*[^\\pL])") + ".*$";
-                        const matcher = RegExp(expression, 'i');
+                        const searchValue = this.value.trim();
+
+                        if (!searchValue) {
+                                // Show all items when search is empty
+                                listItems.forEach(item => item.hidden = false);
+                                return;
+                        }
+
+                        // Use native Unicode regex with modern JavaScript (no XRegExp needed)
+                        // Matches word boundaries with Unicode letter support
+                        const expression = "(^|.*[^\\p{L}])" +
+                                searchValue.split(/\s+/).join("([^\\p{L}]|[^\\p{L}].*[^\\p{L}])") +
+                                ".*$";
+                        const matcher = new RegExp(expression, 'iu'); // 'u' flag for Unicode support
 
                         listItems.forEach(item => {
                                 const text = item.querySelector('td')?.textContent.replace(/\s+/g, ' ') || '';
@@ -97,4 +109,39 @@
                         applyTheme(event.matches ? 'dark' : 'light');
                 });
         }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+                // Skip if user is typing in an input field (except our search)
+                const activeElement = document.activeElement;
+                const isTyping = activeElement &&
+                        (activeElement.tagName === 'INPUT' ||
+                         activeElement.tagName === 'TEXTAREA' ||
+                         activeElement.isContentEditable) &&
+                        activeElement !== input;
+
+                // '/' or 'Ctrl+F' - Focus search
+                if ((event.key === '/' || (event.ctrlKey && event.key === 'f')) && !isTyping) {
+                        event.preventDefault();
+                        input.focus();
+                        input.select();
+                        return;
+                }
+
+                // 'Escape' - Clear search (when search is focused)
+                if (event.key === 'Escape' && activeElement === input) {
+                        event.preventDefault();
+                        input.value = '';
+                        input.dispatchEvent(new Event('input'));
+                        input.blur();
+                        return;
+                }
+
+                // 't' - Toggle theme (not when typing)
+                if (event.key === 't' && !isTyping) {
+                        event.preventDefault();
+                        toggle.click();
+                        return;
+                }
+        });
 }());

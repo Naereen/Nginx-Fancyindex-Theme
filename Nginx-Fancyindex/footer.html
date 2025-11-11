@@ -2,12 +2,17 @@
 <footer>
     Internal Use Only.
 </footer>
-    <script src="https://unpkg.com/xregexp/xregexp-all.js" defer></script>
     <script src="/Nginx-Fancyindex/addNginxFancyIndexForm.js" defer></script>
-    <script src="/Nginx-Fancyindex/showdown.min.js" defer></script>
-    <script defer>
+    <script src="/Nginx-Fancyindex/showdown.min.js"></script>
+    <script>
     (function () {
         'use strict';
+
+        // Wait for showdown to be available
+        if (typeof showdown === 'undefined') {
+            console.warn('Showdown library not loaded, markdown rendering disabled');
+            return;
+        }
 
         const converter = new showdown.Converter({ tables: true });
 
@@ -26,6 +31,9 @@
                 removeElement(target);
                 return;
             }
+
+            // Show loading state
+            target.innerHTML = '<p class="markdown-loading" style="color: var(--muted); font-style: italic; padding: 1rem;">Loading...</p>';
 
             fetch(source)
                 .then(response => {
