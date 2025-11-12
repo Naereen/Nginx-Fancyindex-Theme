@@ -1,7 +1,6 @@
 /* styles.css
 Combined light and dark themes for the Nginx FancyIndex page.
 Optimized for modern browsers: Chrome, Firefox, Safari, Edge
-Optimized for modern browsers: Chrome, Firefox, Safari, Edge
  * © 2015-17, Lilian Besson (Naereen) and contributors,
  * open-sourced under the MIT License, https://lbesson.mit-license.org/
  * hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
@@ -91,7 +90,6 @@ body {
         min-height: 100vh;
         padding: clamp(12px, 2.5vw, 24px);
         color: var(--fg);
-        border-radius: 10px;
         background-color: var(--bg);
         transition: background-color 150ms ease-in, color 150ms ease-in;
 }
@@ -425,6 +423,11 @@ footer a {
         background: var(--bg-elev);
         border-radius: 8px;
         border: 1px solid var(--rule);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
 }
 
 .breadcrumb {
@@ -465,45 +468,28 @@ footer a {
         font-weight: 500;
 }
 
-/* Copy URL buttons */
-.copy-url-btn {
+/* Copy page URL button */
+.copy-page-url-btn {
         appearance: none;
-        border: none;
-        background: transparent;
-        font-size: 0.9rem;
+        border: 1px solid var(--rule);
+        background: var(--bg);
+        color: var(--fg);
+        padding: 0.5rem 1rem;
+        margin-left: 1rem;
+        border-radius: 6px;
+        font: 400 0.85rem system-ui, sans-serif;
         cursor: pointer;
-        padding: 0.25rem 0.5rem;
-        margin-left: 0.5rem;
-        border-radius: 4px;
-        transition: background-color 150ms ease-in;
-        vertical-align: middle;
+        transition: all 150ms ease-in;
 }
 
-.copy-url-btn:hover {
+.copy-page-url-btn:hover {
         background: var(--row-hover);
+        border-color: var(--accent);
 }
 
-.copy-url-btn:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-}
-
-/* Sortable table headers */
-th[role="button"] {
-        transition: background-color 150ms ease-in;
-}
-
-th[role="button"]:hover {
-        background: rgba(0, 0, 0, 0.05);
-}
-
-body.theme-dark th[role="button"]:hover {
-        background: rgba(255, 255, 255, 0.05);
-}
-
-.sort-indicator {
-        font-size: 0.75em;
-        opacity: 0.7;
+.copy-page-url-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
 }
 
 /* Pagination */
@@ -572,7 +558,6 @@ body.theme-dark th[role="button"]:hover {
 @media (max-width: 720px) {
         body {
                 padding: clamp(16px, 4vw, 32px);
-                border-radius: 12px;
                 box-shadow: none;
         }
 
@@ -672,8 +657,10 @@ body.theme-dark th[role="button"]:hover {
         }
 
         /* Mobile copy button styles */
-        .copy-url-btn {
-                font-size: 0.85rem;
-                padding: 0.2rem 0.4rem;
+        .copy-page-url-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                margin-left: 0;
+                margin-top: 0.5rem;
         }
 }

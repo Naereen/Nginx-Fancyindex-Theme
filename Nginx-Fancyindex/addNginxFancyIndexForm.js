@@ -49,7 +49,7 @@
                 const rootLi = document.createElement('li');
                 const rootLink = document.createElement('a');
                 rootLink.href = '/';
-                rootLink.textContent = '🏠 Root';
+                rootLink.textContent = 'Root';
                 rootLi.appendChild(rootLink);
                 breadcrumbList.appendChild(rootLi);
 
@@ -74,6 +74,48 @@
                 });
 
                 breadcrumbNav.appendChild(breadcrumbList);
+
+                // Add copy URL button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-page-url-btn';
+                copyBtn.textContent = 'Copy URL';
+                copyBtn.title = 'Copy current page URL';
+                copyBtn.setAttribute('aria-label', 'Copy current page URL');
+                copyBtn.type = 'button';
+
+                copyBtn.addEventListener('click', async () => {
+                        const url = window.location.href;
+                        try {
+                                const originalText = copyBtn.textContent;
+                                if (navigator.clipboard && window.isSecureContext) {
+                                        await navigator.clipboard.writeText(text);
+                                } else {
+                                        //https://stackoverflow.com/a/33928558
+                                        const textarea = document.createElement('textarea');
+                                        textarea.value = url;
+                                        document.body.appendChild(textarea);
+                                        textarea.select();
+                                        textarea.setSelectionRange(0, 99999); // For mobile devices
+                                        // Execute the copy command
+                                        document.execCommand('copy');
+                                        document.body.removeChild(textarea);
+                                }
+                                //console.log('Text copied to clipboard:', url);
+                                copyBtn.textContent = 'Copied!';
+                                setTimeout(() => {
+                                        copyBtn.textContent = originalText;
+                                }, 2000);
+                        } catch (err) {
+                                console.log(err)
+                                const originalText = copyBtn.textContent;
+                                copyBtn.textContent = 'Failed';
+                                setTimeout(() => {
+                                        copyBtn.textContent = originalText;
+                                }, 2000);
+                        }
+                });
+
+                breadcrumbNav.appendChild(copyBtn);
                 heading.textContent = 'Directory';
                 heading.after(breadcrumbNav);
         }
@@ -92,9 +134,8 @@
 
         function updateThemeButton() {
                 const theme = themeOptions[currentThemeIndex];
-                const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
                 const labels = { auto: 'Auto', light: 'Light', dark: 'Dark' };
-                themeToggle.textContent = `${icons[theme]} ${labels[theme]}`;
+                themeToggle.textContent = labels[theme];
                 themeToggle.setAttribute('data-theme', theme);
         }
 
@@ -126,148 +167,6 @@
         const listItems = tbody ? Array.from(tbody.querySelectorAll('tr')) : [];
         let filteredItems = [...listItems];
         let currentPage = 1;
-        let currentSort = { column: 1, direction: 'desc' }; // Default: Date descending
-
-        // Add copy buttons to each file row
-        function addCopyButtons() {
-                listItems.forEach(item => {
-                        const firstTd = item.querySelector('td');
-                        if (!firstTd) return;
-
-                        const link = firstTd.querySelector('a');
-                        if (!link) return;
-
-                        const copyBtn = document.createElement('button');
-                        copyBtn.className = 'copy-url-btn';
-                        copyBtn.textContent = '📋';
-                        copyBtn.title = 'Copy URL';
-                        copyBtn.setAttribute('aria-label', 'Copy URL');
-                        copyBtn.type = 'button';
-
-                        copyBtn.addEventListener('click', async (e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-
-                                const url = new URL(link.href, window.location.origin).href;
-
-                                try {
-                                        await navigator.clipboard.writeText(url);
-                                        copyBtn.textContent = '✅';
-                                        setTimeout(() => {
-                                                copyBtn.textContent = '📋';
-                                        }, 2000);
-                                } catch (err) {
-                                        copyBtn.textContent = '❌';
-                                        setTimeout(() => {
-                                                copyBtn.textContent = '📋';
-                                        }, 2000);
-                                }
-                        });
-
-                        firstTd.appendChild(copyBtn);
-                });
-        }
-
-        if (listItems.length > 0) {
-                addCopyButtons();
-        }
-
-        // Table sorting
-        function sortTable(columnIndex, direction) {
-                const sortedItems = [...filteredItems].sort((a, b) => {
-                        const aCell = a.children[columnIndex]?.textContent.trim() || '';
-                        const bCell = b.children[columnIndex]?.textContent.trim() || '';
-
-                        // Handle different column types
-                        if (columnIndex === 1) {
-                                // Date column - parse dates
-                                const aDate = new Date(aCell);
-                                const bDate = new Date(bCell);
-                                return direction === 'asc' ? aDate - bDate : bDate - aDate;
-                        } else if (columnIndex === 2) {
-                                // Size column - parse size strings
-                                const parseSize = (str) => {
-                                        if (str === '-') return 0;
-                                        const match = str.match(/^([\d.]+)\s*([KMGT]?)B?$/i);
-                                        if (!match) return 0;
-                                        const num = parseFloat(match[1]);
-                                        const unit = match[2].toUpperCase();
-                                        const multipliers = { '': 1, 'K': 1024, 'M': 1024 ** 2, 'G': 1024 ** 3, 'T': 1024 ** 4 };
-                                        return num * (multipliers[unit] || 1);
-                                };
-                                const aSize = parseSize(aCell);
-                                const bSize = parseSize(bCell);
-                                return direction === 'asc' ? aSize - bSize : bSize - aSize;
-                        } else {
-                                // Text columns - natural sort
-                                return direction === 'asc'
-                                        ? aCell.localeCompare(bCell, undefined, { numeric: true, sensitivity: 'base' })
-                                        : bCell.localeCompare(aCell, undefined, { numeric: true, sensitivity: 'base' });
-                        }
-                });
-
-                filteredItems = sortedItems;
-                currentPage = 1;
-                renderPage();
-        }
-
-        // Make table headers sortable
-        if (table) {
-                const headers = table.querySelectorAll('thead th');
-                headers.forEach((header, index) => {
-                        if (index === 3) return; // Skip description column
-
-                        header.style.cursor = 'pointer';
-                        header.style.userSelect = 'none';
-                        header.setAttribute('role', 'button');
-                        header.setAttribute('tabindex', '0');
-
-                        const sortIndicator = document.createElement('span');
-                        sortIndicator.className = 'sort-indicator';
-                        sortIndicator.setAttribute('aria-hidden', 'true');
-                        header.appendChild(sortIndicator);
-
-                        const handleSort = () => {
-                                if (currentSort.column === index) {
-                                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-                                } else {
-                                        currentSort.column = index;
-                                        currentSort.direction = 'asc';
-                                }
-
-                                // Update all indicators
-                                headers.forEach((h, i) => {
-                                        const indicator = h.querySelector('.sort-indicator');
-                                        if (indicator) {
-                                                if (i === index) {
-                                                        indicator.textContent = currentSort.direction === 'asc' ? ' ▲' : ' ▼';
-                                                } else {
-                                                        indicator.textContent = '';
-                                                }
-                                        }
-                                });
-
-                                sortTable(index, currentSort.direction);
-                        };
-
-                        header.addEventListener('click', handleSort);
-                        header.addEventListener('keydown', (e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                        e.preventDefault();
-                                        handleSort();
-                                }
-                        });
-                });
-
-                // Set initial sort indicator
-                const dateHeader = headers[1];
-                if (dateHeader) {
-                        const indicator = dateHeader.querySelector('.sort-indicator');
-                        if (indicator) {
-                                indicator.textContent = ' ▼';
-                        }
-                }
-        }
 
         // Pagination
         function createPagination() {
@@ -517,7 +416,6 @@
                 }
         });
 
-        // Initial sort by date descending
-        sortTable(1, 'desc');
+        // Initial render
         renderPage();
 }());
