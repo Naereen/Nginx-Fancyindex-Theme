@@ -86,13 +86,27 @@
                 copyBtn.addEventListener('click', async () => {
                         const url = window.location.href;
                         try {
-                                await navigator.clipboard.writeText(url);
                                 const originalText = copyBtn.textContent;
+                                if (navigator.clipboard && window.isSecureContext) {
+                                        await navigator.clipboard.writeText(text);
+                                } else {
+                                        //https://stackoverflow.com/a/33928558
+                                        const textarea = document.createElement('textarea');
+                                        textarea.value = url;
+                                        document.body.appendChild(textarea);
+                                        textarea.select();
+                                        textarea.setSelectionRange(0, 99999); // For mobile devices
+                                        // Execute the copy command
+                                        document.execCommand('copy');
+                                        document.body.removeChild(textarea);
+                                }
+                                //console.log('Text copied to clipboard:', url);
                                 copyBtn.textContent = 'Copied!';
                                 setTimeout(() => {
                                         copyBtn.textContent = originalText;
                                 }, 2000);
                         } catch (err) {
+                                console.log(err)
                                 const originalText = copyBtn.textContent;
                                 copyBtn.textContent = 'Failed';
                                 setTimeout(() => {
