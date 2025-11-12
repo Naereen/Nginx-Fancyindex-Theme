@@ -75,7 +75,7 @@ body.theme-dark {
 }
 
 html {
-        font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+        font-family: system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
         color: var(--muted);
         font-weight: 300;
         font-size: clamp(14px, 1.2vw, 16px);
@@ -418,6 +418,157 @@ footer a {
         color: var(--footer-link);
 }
 
+/* Breadcrumb navigation */
+.breadcrumb-nav {
+        margin: 1rem 0 1.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-elev);
+        border-radius: 8px;
+        border: 1px solid var(--rule);
+}
+
+.breadcrumb {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        font-size: 0.95rem;
+}
+
+.breadcrumb li {
+        display: flex;
+        align-items: center;
+}
+
+.breadcrumb li:not(:last-child)::after {
+        content: '/';
+        margin-left: 0.5rem;
+        color: var(--muted);
+}
+
+.breadcrumb a {
+        color: var(--link);
+        text-decoration: none;
+        transition: color 150ms ease-in;
+}
+
+.breadcrumb a:hover {
+        text-decoration: underline;
+        color: var(--accent);
+}
+
+.breadcrumb-current {
+        color: var(--fg);
+        font-weight: 500;
+}
+
+/* Copy URL buttons */
+.copy-url-btn {
+        appearance: none;
+        border: none;
+        background: transparent;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        margin-left: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 150ms ease-in;
+        vertical-align: middle;
+}
+
+.copy-url-btn:hover {
+        background: var(--row-hover);
+}
+
+.copy-url-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+}
+
+/* Sortable table headers */
+th[role="button"] {
+        transition: background-color 150ms ease-in;
+}
+
+th[role="button"]:hover {
+        background: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-dark th[role="button"]:hover {
+        background: rgba(255, 255, 255, 0.05);
+}
+
+.sort-indicator {
+        font-size: 0.75em;
+        opacity: 0.7;
+}
+
+/* Pagination */
+.pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 1rem;
+}
+
+.pagination-info {
+        color: var(--muted);
+        font-size: 0.9rem;
+}
+
+.pagination-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+}
+
+.pagination-btn {
+        appearance: none;
+        border: 1px solid var(--rule);
+        background: var(--bg-elev);
+        color: var(--fg);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        font: 400 0.9rem system-ui, sans-serif;
+        cursor: pointer;
+        transition: all 150ms ease-in;
+        min-width: 2.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+        background: var(--row-hover);
+        border-color: var(--accent);
+}
+
+.pagination-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+}
+
+.pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+}
+
+.pagination-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        font-weight: 600;
+}
+
+.pagination-ellipsis {
+        color: var(--muted);
+        padding: 0 0.25rem;
+}
+
 @media (max-width: 720px) {
         body {
                 padding: clamp(16px, 4vw, 32px);
@@ -498,5 +649,31 @@ footer a {
 
         td:nth-of-type(4):not([data-label])::before {
                 content: 'Description';
+        }
+
+        /* Mobile breadcrumb styles */
+        .breadcrumb {
+                font-size: 0.85rem;
+        }
+
+        .breadcrumb-nav {
+                padding: 0.5rem 0.75rem;
+        }
+
+        /* Mobile pagination styles */
+        .pagination-btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+                min-width: 2.25rem;
+        }
+
+        .pagination-info {
+                font-size: 0.85rem;
+        }
+
+        /* Mobile copy button styles */
+        .copy-url-btn {
+                font-size: 0.85rem;
+                padding: 0.2rem 0.4rem;
         }
 }
