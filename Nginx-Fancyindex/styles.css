@@ -6,50 +6,74 @@ Optimized for modern browsers: Chrome, Firefox, Safari, Edge
  * hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
 */
 
+/*
+
+*/
+
+/* =========================
+   Base: box sizing + smooth scroll
+   ========================= */
 *,
 *::before,
 *::after {
-        box-sizing: border-box;
+        box-sizing: border-box; /* predictable sizing model */
 }
 
 html {
-        scroll-behavior: smooth;
+        scroll-behavior: smooth; /* smooth anchor jumps */
 }
 
+/* =========================
+   Accessibility: honor reduced motion
+   Generally not applicable to a nginx static file server, but doesn't hurt to include
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion
+   ========================= */
 @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
         *::after {
-                animation-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;     /* effectively disables animations */
                 animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;     /* disables transitions */
+                scroll-behavior: auto !important;           /* avoids smooth scrolling */
         }
 }
 
+/* =========================
+   Theme tokens (Light)
+   Centralized design variables used throughout
+   higher specificity than the html selector
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Specificity
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:root
+   ========================= */
 :root {
-        --bg: #f4f6fb;
-        --bg-elev: #ffffff;
-        --fg: #1e2430;
-        --muted: #5e6877;
-        --row-hover: #eef1f8;
-        --rule: #d7dde6;
-        --accent: #2d6cdf;
-        --focus: 0 0 0 3px rgba(45, 108, 223, 0.25);
-        --link: var(--accent);
-        --clear-link: var(--muted);
-        --input-border: var(--rule);
-        --focus-border: var(--accent);
-        --table-shadow: 0 18px 38px rgba(15, 30, 55, 0.08);
-        --td-border: rgba(0, 0, 0, 0.05);
-        --parent-hover: #1b1f2a;
-        --footer-link: var(--accent);
-        --toggle-bg: #e8ecf6;
-        --toggle-fg: #1e2430;
+        --bg: #f4f6fb;                    /* page background */
+        --bg-elev: #ffffff;               /* elevated surfaces (cards, inputs) */
+        --fg: #1e2430;                    /* primary text */
+        --muted: #5e6877;                 /* secondary text */
+        --row-hover: #eef1f8;             /* table row hover */
+        --rule: #d7dde6;                  /* borders / rules */
+        --accent: #2d6cdf;                /* accent + links */
+        --focus: 0 0 0 3px rgba(45, 108, 223, 0.25); /* focus ring shadow */
+        --link: var(--accent);              /* primary link color */
+        --clear-link: var(--muted);         /* subtle action links */
+        --input-border: var(--rule);        /* input border */
+        --focus-border: var(--accent);      /* input focus border */
+        --table-shadow: 0 18px 38px rgba(15, 30, 55, 0.08); /* table elevation */
+        --td-border: rgba(0, 0, 0, 0.05); /* table row separators */
+        --parent-hover: #1b1f2a;          /* parent dir hover */
+        --footer-link: var(--accent);       /* footer link color */
+        --toggle-bg: #e8ecf6;             /* theme toggle background */
+        --toggle-fg: #1e2430;             /* theme toggle text */
         --toggle-border: rgba(30, 36, 48, 0.1);
-        --toggle-hover-bg: #dbe3f5;
+        --toggle-hover-bg: #dbe3f5;       /* theme toggle hover */
 }
 
+/* =========================
+   Theme tokens (Dark)
+   Override variables when .theme-dark is on <body>
+   Values taken from Nginx-Fancyindex-Theme-dark/styles.css
+   ========================= */
 body.theme-dark {
         --bg: #2f343f;
         --bg-elev: #262a32;
@@ -73,27 +97,35 @@ body.theme-dark {
         --toggle-hover-bg: #2a2f3a;
 }
 
+/* =========================
+   Global typography + colors
+   prioritize the default user interface font of the operating system for native look and feel
+   https://css-tricks.com/snippets/css/system-font-stack/
+   ========================= */
 html {
         font-family: system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-        color: var(--muted);
+        color: var(--muted);                                /* default text color (secondary) */
         font-weight: 300;
-        font-size: clamp(14px, 1.2vw, 16px);
-        line-height: 1.6;
+        font-size: clamp(14px, 1.2vw, 16px);                /* fluid base size */
+        line-height: 1.6;                                   /* TO DO: 1.6x font height is "confortable", add toggle for condensed ~1.2*/
         text-size-adjust: 100%;
         background-color: var(--bg);
 }
 
 body {
         margin: 0;
-        justify-content: center;
+        justify-content: center;                            /* layout centering when used with flex contexts */
         align-items: flex-start;
         min-height: 100vh;
-        padding: clamp(12px, 2.5vw, 24px);
-        color: var(--fg);
+        padding: clamp(12px, 2.5vw, 24px);                  /* responsive page padding */
+        color: var(--fg);                                   /* main text color */
         background-color: var(--bg);
-        transition: background-color 150ms ease-in, color 150ms ease-in;
+        transition: background-color 150ms ease-in, color 150ms ease-in; /* theme fade */
 }
 
+/* =========================
+   Headings and table headers
+   ========================= */
 thead {
         font-weight: 200;
         font-size: 1.2em;
@@ -107,6 +139,9 @@ h1 {
         margin-bottom: 1.25rem;
 }
 
+/* =========================
+   Directory header: search + theme toggle container
+   ========================= */
 .directory-controls {
         display: flex;
         flex-direction: column;
@@ -115,6 +150,7 @@ h1 {
         margin-bottom: 1.5rem;
 }
 
+/* Arrange controls horizontally on wider screens */
 @media (min-width: 720px) {
         .directory-controls {
                 flex-direction: row;
@@ -122,6 +158,9 @@ h1 {
         }
 }
 
+/* =========================
+   Links
+   ========================= */
 a {
         color: var(--link);
         text-decoration: none;
@@ -129,6 +168,7 @@ a {
 a:hover {
         text-decoration: underline;
 }
+/* "Clear" link style (e.g., reset search) */
 a.clear,
 a.clear:link,
 a.clear:visited {
@@ -146,9 +186,12 @@ a.clear:hover {
         border-bottom-color: currentColor;
 }
 
+/* =========================
+   Theme toggle button
+   ========================= */
 .theme-toggle {
         appearance: none;
-        border-radius: 999px;
+        border-radius: 999px;                               /* pill */
         border: 1px solid var(--toggle-border);
         background: var(--toggle-bg);
         color: var(--toggle-fg);
@@ -158,7 +201,7 @@ a.clear:hover {
         transition: background-color 150ms ease-in, transform 150ms ease-in;
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
+        gap: 0.45rem;                                       /* icon/text spacing */
 }
 
 .theme-toggle:hover {
@@ -167,17 +210,20 @@ a.clear:hover {
 
 .theme-toggle:focus-visible {
         outline: none;
-        box-shadow: var(--focus);
+        box-shadow: var(--focus);                           /* tokenized focus ring */
 }
 
 .theme-toggle[aria-pressed="true"] {
-        font-weight: 600;
+        font-weight: 600;                                   /* pressed state emphasis */
 }
 
+/* =========================
+   Inputs (search)
+   ========================= */
 input {
         display: block;
         margin: 0 auto;
-        width: clamp(16rem, 60vw, 32rem);
+        width: clamp(16rem, 60vw, 32rem);                   /* fluid width */
         height: 2.25rem;
         padding: 0 0.75rem;
         color: var(--fg);
@@ -200,9 +246,12 @@ input:focus-visible {
         margin-inline: auto;
         width: min(100%, 320px);
         margin-top: 0;
-        appearance: textfield;
+        appearance: textfield;                              /* normalizes iOS search styles */
 }
 
+/* =========================
+   Table: container + rows/cols
+   ========================= */
 table {
         border-collapse: collapse;
         font-size: 0.95em;
@@ -227,7 +276,7 @@ tr td:first-of-type {
         padding-right: 10px;
 }
 tr.parent a {
-        color: var(--muted);
+        color: var(--muted);                                /* subtle parent directory row */
 }
 
 th {
@@ -246,17 +295,17 @@ body.theme-dark th {
 }
 
 th + th {
-        width: 25%;
+        width: 25%;                                         /* constrain mid columns */
 }
 th + th + th + th {
-        width: 5%;
+        width: 5%;                                          /* final column (e.g., size) narrow */
 }
 
 td {
         padding: 14px 20px;
         outline: 0;
         border: 0;
-        border-bottom: 1px solid var(--td-border);
+        border-bottom: 1px solid var(--td-border);          /* row separators */
         vertical-align: middle;
         text-align: left;
         transition: background 300ms ease-in;
@@ -264,15 +313,20 @@ td {
 
 td:last-child,
 th:last-child {
-        text-align: right;
+        text-align: right;                                  /* align trailing numeric data */
         padding-right: 10px;
 }
 
 td a {
-        display: block;
+        display: block;                                     /* make entire cell clickable */
 }
 
-/* File type icons using emoji/symbols */
+/* =========================
+   File type "icons" via ::before content
+   Applied to first column links
+   https://stackoverflow.com/a/60198998
+   https://www.smashingmagazine.com/2009/08/taming-advanced-css-selectors/#before-and-after
+   ========================= */
 #list tbody tr td:first-child a::before {
         content: '📄';
         margin-right: 0.5rem;
@@ -402,10 +456,16 @@ td a {
         content: '🔧';
 }
 
+/* =========================
+   Parent directory hover
+   ========================= */
 .parent a:hover {
         color: var(--parent-hover);
 }
 
+/* =========================
+   Footer
+   ========================= */
 footer {
         font-size: 12px;
         text-align: center;
@@ -416,7 +476,9 @@ footer a {
         color: var(--footer-link);
 }
 
-/* Breadcrumb navigation */
+/* =========================
+   Breadcrumb navigation
+   ========================= */
 .breadcrumb-nav {
         margin: 1rem 0 1.5rem;
         padding: 0.75rem 1rem;
@@ -468,7 +530,9 @@ footer a {
         font-weight: 500;
 }
 
-/* Copy page URL button */
+/* =========================
+   Copy page URL button
+   ========================= */
 .copy-page-url-btn {
         appearance: none;
         border: 1px solid var(--rule);
@@ -492,7 +556,9 @@ footer a {
         box-shadow: var(--focus);
 }
 
-/* Pagination */
+/* =========================
+   Pagination controls
+   ========================= */
 .pagination {
         display: flex;
         flex-direction: column;
@@ -555,12 +621,17 @@ footer a {
         padding: 0 0.25rem;
 }
 
+/* =========================
+   Responsive: mobile layout
+   Converts the table into stacked cards and adjusts controls
+   ========================= */
 @media (max-width: 720px) {
         body {
                 padding: clamp(16px, 4vw, 32px);
                 box-shadow: none;
         }
 
+        /* Stack table elements as blocks for small screens */
         table,
         thead,
         tbody,
@@ -579,7 +650,7 @@ footer a {
         }
 
         thead {
-                display: none;
+                display: none;                               /* hide header row on mobile */
         }
 
         tr {
@@ -609,7 +680,7 @@ footer a {
         }
 
         td::before {
-                content: attr(data-label);
+                content: attr(data-label);                   /* adds pseudo header */
                 font-weight: 600;
                 color: rgba(27, 31, 42, 0.7);
                 text-transform: uppercase;
@@ -620,6 +691,7 @@ footer a {
                 color: rgba(255, 255, 255, 0.65);
         }
 
+        /* Fallback labels if data-label not provided */
         td:nth-of-type(1):not([data-label])::before {
                 content: 'Name';
         }
