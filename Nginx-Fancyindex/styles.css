@@ -90,7 +90,6 @@ body {
         min-height: 100vh;
         padding: clamp(12px, 2.5vw, 24px);
         color: var(--fg);
-        border-radius: 10px;
         background-color: var(--bg);
         transition: background-color 150ms ease-in, color 150ms ease-in;
 }
