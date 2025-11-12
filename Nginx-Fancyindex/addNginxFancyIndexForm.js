@@ -1,6 +1,9 @@
 // addNginxFancyIndexForm.js
 // Enhances the Nginx FancyIndex page with search filtering and a theme toggle.
 // Optimized for modern browsers: Chrome, Firefox, Safari, Edge
+// © 2017, Lilian Besson (Naereen) and contributors,
+// open-sourced under the MIT License, https://lbesson.mit-license.org/
+// hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
 
 (function () {
         'use strict';
