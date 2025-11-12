@@ -558,7 +558,6 @@ footer a {
 @media (max-width: 720px) {
         body {
                 padding: clamp(16px, 4vw, 32px);
-                border-radius: 12px;
                 box-shadow: none;
         }
 
