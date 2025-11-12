@@ -1,9 +1,31 @@
 /* styles.css
 Combined light and dark themes for the Nginx FancyIndex page.
+Optimized for modern browsers: Chrome, Firefox, Safari, Edge
+Optimized for modern browsers: Chrome, Firefox, Safari, Edge
+ * © 2015-17, Lilian Besson (Naereen) and contributors,
+ * open-sourced under the MIT License, https://lbesson.mit-license.org/
+ * hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
 */
 
-* {
+*,
+*::before,
+*::after {
         box-sizing: border-box;
+}
+
+html {
+        scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+        }
 }
 
 :root {
@@ -53,12 +75,12 @@ body.theme-dark {
 }
 
 html {
-        font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
         color: var(--muted);
         font-weight: 300;
         font-size: clamp(14px, 1.2vw, 16px);
         line-height: 1.6;
-        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
         background-color: var(--bg);
 }
 
@@ -145,7 +167,7 @@ a.clear:hover {
         background: var(--toggle-hover-bg);
 }
 
-.theme-toggle:focus {
+.theme-toggle:focus-visible {
         outline: none;
         box-shadow: var(--focus);
 }
@@ -167,29 +189,20 @@ input {
         font: 300 0.95rem/1.2 'Roboto', system-ui, sans-serif;
         transition: border-color 150ms ease-in, box-shadow 150ms ease-in;
 }
-input:focus {
+input:focus-visible {
         outline: 0;
         border-color: var(--focus-border);
         box-shadow: var(--focus);
-}
-input::-moz-focus-inner {
-        padding: 0;
-        border: 0;
 }
 
 #search {
         color: var(--fg);
         background-color: var(--bg-elev);
         display: block;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline: auto;
         width: min(100%, 320px);
         margin-top: 0;
-        -webkit-box-sizing: content-box;
-        -moz-box-sizing: content-box;
-        box-sizing: content-box;
-        -webkit-appearance: textfield;
-        transition: all 300ms ease-in;
+        appearance: textfield;
 }
 
 table {
@@ -261,6 +274,136 @@ td a {
         display: block;
 }
 
+/* File type icons using emoji/symbols */
+#list tbody tr td:first-child a::before {
+        content: '📄';
+        margin-right: 0.5rem;
+        display: inline-block;
+        font-style: normal;
+}
+
+/* Directory/Folder */
+#list tbody tr td:first-child a[href$="/"]::before {
+        content: '📁';
+}
+
+/* Parent directory */
+#list tbody tr.parent td:first-child a::before {
+        content: '⬆️';
+}
+
+/* Images */
+#list tbody tr td:first-child a[href$=".jpg"]::before,
+#list tbody tr td:first-child a[href$=".jpeg"]::before,
+#list tbody tr td:first-child a[href$=".png"]::before,
+#list tbody tr td:first-child a[href$=".gif"]::before,
+#list tbody tr td:first-child a[href$=".svg"]::before,
+#list tbody tr td:first-child a[href$=".webp"]::before,
+#list tbody tr td:first-child a[href$=".ico"]::before,
+#list tbody tr td:first-child a[href$=".bmp"]::before {
+        content: '🖼️';
+}
+
+/* Videos */
+#list tbody tr td:first-child a[href$=".mp4"]::before,
+#list tbody tr td:first-child a[href$=".avi"]::before,
+#list tbody tr td:first-child a[href$=".mov"]::before,
+#list tbody tr td:first-child a[href$=".wmv"]::before,
+#list tbody tr td:first-child a[href$=".flv"]::before,
+#list tbody tr td:first-child a[href$=".webm"]::before,
+#list tbody tr td:first-child a[href$=".mkv"]::before {
+        content: '🎬';
+}
+
+/* Audio */
+#list tbody tr td:first-child a[href$=".mp3"]::before,
+#list tbody tr td:first-child a[href$=".wav"]::before,
+#list tbody tr td:first-child a[href$=".flac"]::before,
+#list tbody tr td:first-child a[href$=".aac"]::before,
+#list tbody tr td:first-child a[href$=".ogg"]::before,
+#list tbody tr td:first-child a[href$=".m4a"]::before {
+        content: '🎵';
+}
+
+/* Archives */
+#list tbody tr td:first-child a[href$=".zip"]::before,
+#list tbody tr td:first-child a[href$=".rar"]::before,
+#list tbody tr td:first-child a[href$=".tar"]::before,
+#list tbody tr td:first-child a[href$=".gz"]::before,
+#list tbody tr td:first-child a[href$=".7z"]::before,
+#list tbody tr td:first-child a[href$=".bz2"]::before,
+#list tbody tr td:first-child a[href$=".xz"]::before {
+        content: '📦';
+}
+
+/* Documents */
+#list tbody tr td:first-child a[href$=".pdf"]::before {
+        content: '📕';
+}
+
+#list tbody tr td:first-child a[href$=".doc"]::before,
+#list tbody tr td:first-child a[href$=".docx"]::before {
+        content: '📘';
+}
+
+#list tbody tr td:first-child a[href$=".xls"]::before,
+#list tbody tr td:first-child a[href$=".xlsx"]::before,
+#list tbody tr td:first-child a[href$=".csv"]::before {
+        content: '📊';
+}
+
+#list tbody tr td:first-child a[href$=".ppt"]::before,
+#list tbody tr td:first-child a[href$=".pptx"]::before {
+        content: '📙';
+}
+
+#list tbody tr td:first-child a[href$=".txt"]::before,
+#list tbody tr td:first-child a[href$=".md"]::before,
+#list tbody tr td:first-child a[href$=".markdown"]::before {
+        content: '📝';
+}
+
+/* Code files */
+#list tbody tr td:first-child a[href$=".html"]::before,
+#list tbody tr td:first-child a[href$=".htm"]::before,
+#list tbody tr td:first-child a[href$=".css"]::before,
+#list tbody tr td:first-child a[href$=".js"]::before,
+#list tbody tr td:first-child a[href$=".json"]::before,
+#list tbody tr td:first-child a[href$=".xml"]::before,
+#list tbody tr td:first-child a[href$=".php"]::before,
+#list tbody tr td:first-child a[href$=".py"]::before,
+#list tbody tr td:first-child a[href$=".java"]::before,
+#list tbody tr td:first-child a[href$=".c"]::before,
+#list tbody tr td:first-child a[href$=".cpp"]::before,
+#list tbody tr td:first-child a[href$=".h"]::before,
+#list tbody tr td:first-child a[href$=".sh"]::before,
+#list tbody tr td:first-child a[href$=".rb"]::before,
+#list tbody tr td:first-child a[href$=".go"]::before,
+#list tbody tr td:first-child a[href$=".rs"]::before,
+#list tbody tr td:first-child a[href$=".ts"]::before,
+#list tbody tr td:first-child a[href$=".tsx"]::before,
+#list tbody tr td:first-child a[href$=".jsx"]::before {
+        content: '💻';
+}
+
+/* Executables */
+#list tbody tr td:first-child a[href$=".exe"]::before,
+#list tbody tr td:first-child a[href$=".app"]::before,
+#list tbody tr td:first-child a[href$=".dmg"]::before,
+#list tbody tr td:first-child a[href$=".iso"]::before {
+        content: '⚙️';
+}
+
+/* Configuration */
+#list tbody tr td:first-child a[href$=".ini"]::before,
+#list tbody tr td:first-child a[href$=".cfg"]::before,
+#list tbody tr td:first-child a[href$=".conf"]::before,
+#list tbody tr td:first-child a[href$=".yaml"]::before,
+#list tbody tr td:first-child a[href$=".yml"]::before,
+#list tbody tr td:first-child a[href$=".toml"]::before {
+        content: '🔧';
+}
+
 .parent a:hover {
         color: var(--parent-hover);
 }
@@ -273,6 +416,157 @@ footer {
 footer a {
         text-decoration: underline;
         color: var(--footer-link);
+}
+
+/* Breadcrumb navigation */
+.breadcrumb-nav {
+        margin: 1rem 0 1.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-elev);
+        border-radius: 8px;
+        border: 1px solid var(--rule);
+}
+
+.breadcrumb {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        font-size: 0.95rem;
+}
+
+.breadcrumb li {
+        display: flex;
+        align-items: center;
+}
+
+.breadcrumb li:not(:last-child)::after {
+        content: '/';
+        margin-left: 0.5rem;
+        color: var(--muted);
+}
+
+.breadcrumb a {
+        color: var(--link);
+        text-decoration: none;
+        transition: color 150ms ease-in;
+}
+
+.breadcrumb a:hover {
+        text-decoration: underline;
+        color: var(--accent);
+}
+
+.breadcrumb-current {
+        color: var(--fg);
+        font-weight: 500;
+}
+
+/* Copy URL buttons */
+.copy-url-btn {
+        appearance: none;
+        border: none;
+        background: transparent;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        margin-left: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 150ms ease-in;
+        vertical-align: middle;
+}
+
+.copy-url-btn:hover {
+        background: var(--row-hover);
+}
+
+.copy-url-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+}
+
+/* Sortable table headers */
+th[role="button"] {
+        transition: background-color 150ms ease-in;
+}
+
+th[role="button"]:hover {
+        background: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-dark th[role="button"]:hover {
+        background: rgba(255, 255, 255, 0.05);
+}
+
+.sort-indicator {
+        font-size: 0.75em;
+        opacity: 0.7;
+}
+
+/* Pagination */
+.pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 1rem;
+}
+
+.pagination-info {
+        color: var(--muted);
+        font-size: 0.9rem;
+}
+
+.pagination-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+}
+
+.pagination-btn {
+        appearance: none;
+        border: 1px solid var(--rule);
+        background: var(--bg-elev);
+        color: var(--fg);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        font: 400 0.9rem system-ui, sans-serif;
+        cursor: pointer;
+        transition: all 150ms ease-in;
+        min-width: 2.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+        background: var(--row-hover);
+        border-color: var(--accent);
+}
+
+.pagination-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+}
+
+.pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+}
+
+.pagination-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        font-weight: 600;
+}
+
+.pagination-ellipsis {
+        color: var(--muted);
+        padding: 0 0.25rem;
 }
 
 @media (max-width: 720px) {
@@ -355,5 +649,31 @@ footer a {
 
         td:nth-of-type(4):not([data-label])::before {
                 content: 'Description';
+        }
+
+        /* Mobile breadcrumb styles */
+        .breadcrumb {
+                font-size: 0.85rem;
+        }
+
+        .breadcrumb-nav {
+                padding: 0.5rem 0.75rem;
+        }
+
+        /* Mobile pagination styles */
+        .pagination-btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+                min-width: 2.25rem;
+        }
+
+        .pagination-info {
+                font-size: 0.85rem;
+        }
+
+        /* Mobile copy button styles */
+        .copy-url-btn {
+                font-size: 0.85rem;
+                padding: 0.2rem 0.4rem;
         }
 }

@@ -1,55 +1,66 @@
 <div id="raw_include_README_md"></div>
 <footer>
-    Internal Use Only.
+    Theme available on <a href="https://GitHub.com/Naereen/Nginx-Fancyindex-Theme">GitHub</a> by <a href="https://GitHub.com/Naereen">Naereen</a>, © 2015-18, released under <a href="https://lbesson.mit-license.org/">the MIT License</a>.
 </footer>
-    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
-    <script type="text/javascript" src="/Nginx-Fancyindex/addNginxFancyIndexForm.js"></script>
-    <script type="text/javascript" src="/Nginx-Fancyindex/showdown.min.js"></script>
-    <script type="text/javascript" defer>
+    <script src="/Nginx-Fancyindex/addNginxFancyIndexForm.js" defer></script>
+    <script src="/Nginx-Fancyindex/showdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+    <script>
     (function () {
-        var converter = new showdown.Converter({ tables: true });
+        'use strict';
+
+        // Wait for required libraries to be available
+        if (typeof showdown === 'undefined') {
+            console.warn('Showdown library not loaded, markdown rendering disabled');
+            return;
+        }
+
+        if (typeof DOMPurify === 'undefined') {
+            console.warn('DOMPurify library not loaded, markdown rendering disabled for security');
+            return;
+        }
+
+        const converter = new showdown.Converter({ tables: true });
 
         function findListingLink(name) {
-            var links = document.querySelectorAll('#list tbody tr td a');
-            for (var i = 0; i < links.length; i += 1) {
-                if (links[i].textContent.trim() === name) {
-                    return links[i];
-                }
-            }
-            return null;
+            const links = document.querySelectorAll('#list tbody tr td a');
+            return Array.from(links).find(link => link.textContent.trim() === name) || null;
         }
 
         function removeElement(element) {
-            if (element && element.parentNode) {
-                element.parentNode.removeChild(element);
-            }
+            element?.remove();
         }
 
         function renderMarkdown(targetId, source) {
-            var target = document.getElementById(targetId);
+            const target = document.getElementById(targetId);
             if (!target || !findListingLink(source)) {
                 removeElement(target);
                 return;
             }
 
-            var request = new XMLHttpRequest();
-            request.open('GET', source, true);
+            // Show loading state
+            target.innerHTML = '<p class="markdown-loading" style="color: var(--muted); font-style: italic; padding: 1rem;">Loading...</p>';
 
-            request.onload = function () {
-                if (request.status < 200 || request.status >= 300) {
+            fetch(source)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    const normalized = text.replace(/\n[ ]*/g, '\n');
+                    const html = converter.makeHtml(normalized);
+                    // Sanitize HTML with DOMPurify before inserting
+                    const clean = DOMPurify.sanitize(html, {
+                        ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'u', 'code', 'pre', 'a', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'blockquote', 'hr', 'img'],
+                        ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id']
+                    });
+                    target.innerHTML = clean;
+                })
+                .catch(() => {
                     removeElement(target);
-                    return;
-                }
-
-                var text = request.responseText.replace(/\n[ ]*/g, '\n');
-                target.innerHTML = converter.makeHtml(text);
-            };
-
-            request.onerror = function () {
-                removeElement(target);
-            };
-
-            request.send();
+                });
         }
 
         renderMarkdown('raw_include_HEADER_md', 'HEADER.md');
@@ -60,4 +71,7 @@
 </html>
 <!--
 footer.html
+© 2015-18, Lilian Besson (Naereen) and contributors,
+open-sourced under the MIT License, https://lbesson.mit-license.org/
+hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
 -->
