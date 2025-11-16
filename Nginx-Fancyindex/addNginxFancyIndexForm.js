@@ -88,7 +88,7 @@
                         try {
                                 const originalText = copyBtn.textContent;
                                 if (navigator.clipboard && window.isSecureContext) {
-                                        await navigator.clipboard.writeText(text);
+                                        await navigator.clipboard.writeText(url);
                                 } else {
                                         //https://stackoverflow.com/a/33928558
                                         const textarea = document.createElement('textarea');
