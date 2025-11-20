@@ -13,8 +13,8 @@
 
         // Register Service Worker for offline support
         if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/Nginx-Fancyindex/sw.js').catch(() => {
-                        // Silently fail if service worker registration fails
+                navigator.serviceWorker.register('/Nginx-Fancyindex/sw.js').catch((err) => {
+                        console.warn('Service worker registration failed:', err);
                 });
         }
 
