@@ -1,226 +1,738 @@
 /* styles.css
- * Better styling for of Nginx FancyIndex page
+Combined light and dark themes for the Nginx FancyIndex page.
+Optimized for modern browsers: Chrome, Firefox, Safari, Edge
  * © 2015-17, Lilian Besson (Naereen) and contributors,
  * open-sourced under the MIT License, https://lbesson.mit-license.org/
  * hosted on GitHub, https://GitHub.com/Naereen/Nginx-Fancyindex-Theme
- */
+*/
 
-:root {
-	--body-bg-color: #FFFFFF;
-	--body-text-color: #61666C;
-	--link-color: #5F5F5F;
-	--link-hover-color: #000000;
-	--link-hover-decoration: none;
-	--link-visited-color: #666;
-	--search-bg-color: #FFFFFF;
-	--search-color: #CCCCCC;
-	--tr-hover: #000000;
-	--tr-hover-bg: #F6F6F6;
-	--footer-link-color: #990012;
-}
+/*
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--body-bg-color: #2F343F;
-		--body-text-color: #FFFFFF;
-		--link-color: #FFFFFF;
-		--link-hover-color: #FFFFFF;
-		--link-hover-decoration: underline;
-		--link-visited-color: #666;
-		--search-bg-color: #262A32;
-		--search-color: #FFFFFF;
-		--tr-hover: #FFFFFF;
-		--tr-hover-bg: #3D4351;
-		--footer-link-color: #FFFFFF;
-	}
-}
+*/
 
-* {
-    font-family: 'Verdana', sans-serif;
-	margin: 0;
-	padding: 0;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+/* =========================
+   Base: box sizing + smooth scroll
+   ========================= */
+*,
+*::before,
+*::after {
+        box-sizing: border-box; /* predictable sizing model */
 }
 
 html {
-	font-weight: 300;
-	font-size: 1em;
-	line-height: 2em;
+        scroll-behavior: smooth; /* smooth anchor jumps */
+}
+
+/* =========================
+   Accessibility: honor reduced motion
+   Generally not applicable to a nginx static file server, but doesn't hurt to include
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+                animation-duration: 0.01ms !important;     /* effectively disables animations */
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;     /* disables transitions */
+                scroll-behavior: auto !important;           /* avoids smooth scrolling */
+        }
+}
+
+/* =========================
+   Theme tokens (Light)
+   Centralized design variables used throughout
+   higher specificity than the html selector
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Specificity
+   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:root
+   ========================= */
+:root {
+        --bg: #f4f6fb;                    /* page background */
+        --bg-elev: #ffffff;               /* elevated surfaces (cards, inputs) */
+        --fg: #1e2430;                    /* primary text */
+        --muted: #5e6877;                 /* secondary text */
+        --row-hover: #eef1f8;             /* table row hover */
+        --rule: #d7dde6;                  /* borders / rules */
+        --accent: #2d6cdf;                /* accent + links */
+        --focus: 0 0 0 3px rgba(45, 108, 223, 0.25); /* focus ring shadow */
+        --link: var(--accent);              /* primary link color */
+        --clear-link: var(--muted);         /* subtle action links */
+        --input-border: var(--rule);        /* input border */
+        --focus-border: var(--accent);      /* input focus border */
+        --table-shadow: 0 18px 38px rgba(15, 30, 55, 0.08); /* table elevation */
+        --td-border: rgba(0, 0, 0, 0.05); /* table row separators */
+        --parent-hover: #1b1f2a;          /* parent dir hover */
+        --footer-link: var(--accent);       /* footer link color */
+        --toggle-bg: #e8ecf6;             /* theme toggle background */
+        --toggle-fg: #1e2430;             /* theme toggle text */
+        --toggle-border: rgba(30, 36, 48, 0.1);
+        --toggle-hover-bg: #dbe3f5;       /* theme toggle hover */
+}
+
+/* =========================
+   Theme tokens (Dark)
+   Override variables when .theme-dark is on <body>
+   Values taken from Nginx-Fancyindex-Theme-dark/styles.css
+   ========================= */
+body.theme-dark {
+        --bg: #2f343f;
+        --bg-elev: #262a32;
+        --fg: #ffffff;
+        --muted: #9099a3;
+        --row-hover: #3d4351;
+        --rule: #3c404a;
+        --accent: #cfd6df;
+        --focus: 0 0 0 3px rgba(255, 255, 255, 0.25);
+        --link: #ffffff;
+        --clear-link: #cbd3dc;
+        --input-border: #3c404a;
+        --focus-border: #cfd6df;
+        --table-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        --td-border: rgba(255, 255, 255, 0.07);
+        --parent-hover: #2a2a2a;
+        --footer-link: #ffffff;
+        --toggle-bg: #1f222b;
+        --toggle-fg: #ffffff;
+        --toggle-border: rgba(255, 255, 255, 0.12);
+        --toggle-hover-bg: #2a2f3a;
+}
+
+/* =========================
+   Global typography + colors
+   prioritize the default user interface font of the operating system for native look and feel
+   https://css-tricks.com/snippets/css/system-font-stack/
+   ========================= */
+html {
+        font-family: system-ui, -apple-system, 'Segoe UI', Ubuntu, Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+        color: var(--muted);                                /* default text color (secondary) */
+        font-weight: 300;
+        font-size: clamp(14px, 1.2vw, 16px);                /* fluid base size */
+        line-height: 1.6;                                   /* TO DO: 1.6x font height is "confortable", add toggle for condensed ~1.2*/
+        text-size-adjust: 100%;
+        background-color: var(--bg);
 }
 
 body {
-	margin: 0 auto;
-	padding-top: 20px;
-	max-width: 800px;
-	background-color: var(--body-bg-color);
-	color: var(--body-text-color);
+        margin: 0;
+        justify-content: center;                            /* layout centering when used with flex contexts */
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: clamp(12px, 2.5vw, 24px);                  /* responsive page padding */
+        color: var(--fg);                                   /* main text color */
+        background-color: var(--bg);
+        transition: background-color 150ms ease-in, color 150ms ease-in; /* theme fade */
 }
 
+/* =========================
+   Headings and table headers
+   ========================= */
 thead {
-	font-weight: 200;
-	font-size: 1.2em;
+        font-weight: 200;
+        font-size: 1.2em;
 }
 
 h1 {
-	font-weight: 200;
-	text-align: center;
-	font-size: 1.4em;
-	line-height: 3em;
+        font-weight: 300;
+        text-align: center;
+        font-size: clamp(1.5rem, 2vw + 1rem, 2.4rem);
+        line-height: 1.4;
+        margin-bottom: 1.25rem;
 }
 
+/* =========================
+   Directory header: search + theme toggle container
+   ========================= */
+.directory-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+}
+
+/* Arrange controls horizontally on wider screens */
+@media (min-width: 720px) {
+        .directory-controls {
+                flex-direction: row;
+                justify-content: center;
+        }
+}
+
+/* =========================
+   Links
+   ========================= */
 a {
-	color: var(--link-color);
-	text-decoration: none;
+        color: var(--link);
+        text-decoration: none;
 }
 a:hover {
-	color: var(--link-hover-color);
-	text-decoration: var(--link-hover-decoration);
+        text-decoration: underline;
 }
-a.clear, a.clear:link, a.clear:visited {
-	color: var(--link-visited-color);
-	padding: 2px 0;
-	font-weight: 400;
-	font-size: 14px;
-	margin: 0 0 0 20px;
-	line-height: 14px;
-	display: inline-block;
-	border-bottom: transparent 1px solid;
-	vertical-align: -10px;
-	-webkit-transition: all 300ms ease-in;
-	-moz-transition: all 300ms ease-in;
-	-ms-transition: all 300ms ease-in;
-	-o-transition: all 300ms ease-in;
-	transition: all 300ms ease-in;
+/* "Clear" link style (e.g., reset search) */
+a.clear,
+a.clear:link,
+a.clear:visited {
+        color: var(--clear-link);
+        padding: 2px 0;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-left: 1rem;
+        line-height: 1;
+        display: inline-block;
+        border-bottom: 1px solid transparent;
+        transition: border-color 200ms ease-in;
+}
+a.clear:hover {
+        border-bottom-color: currentColor;
 }
 
+/* =========================
+   Theme toggle button
+   ========================= */
+.theme-toggle {
+        appearance: none;
+        border-radius: 999px;                               /* pill */
+        border: 1px solid var(--toggle-border);
+        background: var(--toggle-bg);
+        color: var(--toggle-fg);
+        padding: 0.35rem 1.2rem;
+        font: 500 0.9rem/1.2 'Roboto', system-ui, sans-serif;
+        cursor: pointer;
+        transition: background-color 150ms ease-in, transform 150ms ease-in;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;                                       /* icon/text spacing */
+}
+
+.theme-toggle:hover {
+        background: var(--toggle-hover-bg);
+}
+
+.theme-toggle:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);                           /* tokenized focus ring */
+}
+
+.theme-toggle[aria-pressed="true"] {
+        font-weight: 600;                                   /* pressed state emphasis */
+}
+
+/* =========================
+   Inputs (search)
+   ========================= */
 input {
-	margin: 0 auto;
-	font-size: 100%;
-	vertical-align: middle;
-	*overflow: visible;
-	line-height: normal;
-    font-family: 'Open Sans', sans-serif;
-	font-size: 12px;
-	font-weight: 300;
-	line-height: 18px;
-	display: inline-block;
-	height: 20px;
-	padding: 4px 32px 4px 6px;
-	margin-bottom: 9px;
-	font-size: 14px;
-	line-height: 20px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	width: 196px;
-	border: 1px solid #ccc;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-webkit-transition: border linear .2s,box-shadow linear .2s;
-	-moz-transition: border linear .2s,box-shadow linear .2s;
-	-o-transition: border linear .2s,box-shadow linear .2s;
-	transition: border linear .2s,box-shadow linear .2s;
+        display: block;
+        margin: 0 auto;
+        width: clamp(16rem, 60vw, 32rem);                   /* fluid width */
+        height: 2.25rem;
+        padding: 0 0.75rem;
+        color: var(--fg);
+        background-color: var(--bg-elev);
+        border: 1px solid var(--input-border);
+        border-radius: 6px;
+        font: 300 0.95rem/1.2 'Roboto', system-ui, sans-serif;
+        transition: border-color 150ms ease-in, box-shadow 150ms ease-in;
 }
-input:focus {
-	outline: 0;
-	border-color: rgba(0,0,0,0.8);
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.6);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.6);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.6);
-}
-input::-moz-focus-inner {
-	padding: 0;
-	border: 0;
+input:focus-visible {
+        outline: 0;
+        border-color: var(--focus-border);
+        box-shadow: var(--focus);
 }
 
 #search {
-	color: var(--search-color);
-	background-color: var(--search-bg-color);
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 250px;
-	margin-top: 20px;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-	-webkit-appearance: textfield;
-	-webkit-transition: all 300ms ease-in;
-	-moz-transition: all 300ms ease-in;
-	-ms-transition: all 300ms ease-in;
-	-o-transition: all 300ms ease-in;
-	transition: all 300ms ease-in;
+        color: var(--fg);
+        background-color: var(--bg-elev);
+        display: block;
+        margin-inline: auto;
+        width: min(100%, 320px);
+        margin-top: 0;
+        appearance: textfield;                              /* normalizes iOS search styles */
 }
 
+/* =========================
+   Table: container + rows/cols
+   ========================= */
 table {
-	border-collapse: collapse;
-	font-size: 0.9em;
-	max-width: 100%;
-	margin: 20px auto 0;
+        border-collapse: collapse;
+        font-size: 0.95em;
+        width: 100%;
+        margin: 24px 0 0;
+        background: var(--bg-elev);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--table-shadow);
 }
 
 tr {
-	outline: 0;
-	border: 0;
+        outline: 0;
+        border: 0;
 }
 tr:hover td {
-	color: var(--tr-hover);	
-	background: var(--tr-hover-bg);
+        color: var(--fg);
+        background: var(--row-hover);
 }
 tr td:first-of-type {
-	padding-left: 10px;
-	padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
 }
 tr.parent a {
-	color: #9099A3;
+        color: var(--muted);                                /* subtle parent directory row */
 }
 
 th {
-
-	text-align: left;
-	font-size: .75em;
-	padding-right: 20px;
+        text-align: left;
+        font-size: 0.75em;
+        padding: 12px 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #7a8597;
+        background: #e3e8f1;
 }
+
+body.theme-dark th {
+        color: #8a94a6;
+        background: #1f222b;
+}
+
 th + th {
-	width: 25%;
+        width: 25%;                                         /* constrain mid columns */
 }
 th + th + th + th {
-	width: 5%;
+        width: 5%;                                          /* final column (e.g., size) narrow */
 }
 
 td {
-	padding: 5px 0;
-	outline: 0;
-	border: 0;
-	border-bottom: 1px solid #edf1f5;
-	vertical-align: middle;
-	text-align: left;
-	-webkit-transition: background 300ms ease-in;
-	-moz-transition: background 300ms ease-in;
-	-ms-transition: background 300ms ease-in;
-	-o-transition: background 300ms ease-in;
-	transition: background 300ms ease-in;
+        padding: 14px 20px;
+        outline: 0;
+        border: 0;
+        border-bottom: 1px solid var(--td-border);          /* row separators */
+        vertical-align: middle;
+        text-align: left;
+        transition: background 300ms ease-in;
 }
-td:last-child,th:last-child {
-	text-align: right;
-	padding-right: 0;
+
+td:last-child,
+th:last-child {
+        text-align: right;                                  /* align trailing numeric data */
+        padding-right: 10px;
 }
+
 td a {
-	display: block;
+        display: block;                                     /* make entire cell clickable */
 }
 
+/* =========================
+   File type "icons" via ::before content
+   Applied to first column links
+   https://stackoverflow.com/a/60198998
+   https://www.smashingmagazine.com/2009/08/taming-advanced-css-selectors/#before-and-after
+   ========================= */
+#list tbody tr td:first-child a::before {
+        content: '📄';
+        margin-right: 0.5rem;
+        display: inline-block;
+        font-style: normal;
+}
+
+/* Directory/Folder */
+#list tbody tr td:first-child a[href$="/"]::before {
+        content: '📁';
+}
+
+/* Parent directory */
+#list tbody tr.parent td:first-child a::before {
+        content: '⬆️';
+}
+
+/* Images */
+#list tbody tr td:first-child a[href$=".jpg"]::before,
+#list tbody tr td:first-child a[href$=".jpeg"]::before,
+#list tbody tr td:first-child a[href$=".png"]::before,
+#list tbody tr td:first-child a[href$=".gif"]::before,
+#list tbody tr td:first-child a[href$=".svg"]::before,
+#list tbody tr td:first-child a[href$=".webp"]::before,
+#list tbody tr td:first-child a[href$=".ico"]::before,
+#list tbody tr td:first-child a[href$=".bmp"]::before {
+        content: '🖼️';
+}
+
+/* Videos */
+#list tbody tr td:first-child a[href$=".mp4"]::before,
+#list tbody tr td:first-child a[href$=".avi"]::before,
+#list tbody tr td:first-child a[href$=".mov"]::before,
+#list tbody tr td:first-child a[href$=".wmv"]::before,
+#list tbody tr td:first-child a[href$=".flv"]::before,
+#list tbody tr td:first-child a[href$=".webm"]::before,
+#list tbody tr td:first-child a[href$=".mkv"]::before {
+        content: '🎬';
+}
+
+/* Audio */
+#list tbody tr td:first-child a[href$=".mp3"]::before,
+#list tbody tr td:first-child a[href$=".wav"]::before,
+#list tbody tr td:first-child a[href$=".flac"]::before,
+#list tbody tr td:first-child a[href$=".aac"]::before,
+#list tbody tr td:first-child a[href$=".ogg"]::before,
+#list tbody tr td:first-child a[href$=".m4a"]::before {
+        content: '🎵';
+}
+
+/* Archives */
+#list tbody tr td:first-child a[href$=".zip"]::before,
+#list tbody tr td:first-child a[href$=".rar"]::before,
+#list tbody tr td:first-child a[href$=".tar"]::before,
+#list tbody tr td:first-child a[href$=".gz"]::before,
+#list tbody tr td:first-child a[href$=".7z"]::before,
+#list tbody tr td:first-child a[href$=".bz2"]::before,
+#list tbody tr td:first-child a[href$=".xz"]::before {
+        content: '📦';
+}
+
+/* Documents */
+#list tbody tr td:first-child a[href$=".pdf"]::before {
+        content: '📕';
+}
+
+#list tbody tr td:first-child a[href$=".doc"]::before,
+#list tbody tr td:first-child a[href$=".docx"]::before {
+        content: '📘';
+}
+
+#list tbody tr td:first-child a[href$=".xls"]::before,
+#list tbody tr td:first-child a[href$=".xlsx"]::before,
+#list tbody tr td:first-child a[href$=".csv"]::before {
+        content: '📊';
+}
+
+#list tbody tr td:first-child a[href$=".ppt"]::before,
+#list tbody tr td:first-child a[href$=".pptx"]::before {
+        content: '📙';
+}
+
+#list tbody tr td:first-child a[href$=".txt"]::before,
+#list tbody tr td:first-child a[href$=".md"]::before,
+#list tbody tr td:first-child a[href$=".markdown"]::before {
+        content: '📝';
+}
+
+/* Code files */
+#list tbody tr td:first-child a[href$=".html"]::before,
+#list tbody tr td:first-child a[href$=".htm"]::before,
+#list tbody tr td:first-child a[href$=".css"]::before,
+#list tbody tr td:first-child a[href$=".js"]::before,
+#list tbody tr td:first-child a[href$=".json"]::before,
+#list tbody tr td:first-child a[href$=".xml"]::before,
+#list tbody tr td:first-child a[href$=".php"]::before,
+#list tbody tr td:first-child a[href$=".py"]::before,
+#list tbody tr td:first-child a[href$=".java"]::before,
+#list tbody tr td:first-child a[href$=".c"]::before,
+#list tbody tr td:first-child a[href$=".cpp"]::before,
+#list tbody tr td:first-child a[href$=".h"]::before,
+#list tbody tr td:first-child a[href$=".sh"]::before,
+#list tbody tr td:first-child a[href$=".rb"]::before,
+#list tbody tr td:first-child a[href$=".go"]::before,
+#list tbody tr td:first-child a[href$=".rs"]::before,
+#list tbody tr td:first-child a[href$=".ts"]::before,
+#list tbody tr td:first-child a[href$=".tsx"]::before,
+#list tbody tr td:first-child a[href$=".jsx"]::before {
+        content: '💻';
+}
+
+/* Executables */
+#list tbody tr td:first-child a[href$=".exe"]::before,
+#list tbody tr td:first-child a[href$=".app"]::before,
+#list tbody tr td:first-child a[href$=".dmg"]::before,
+#list tbody tr td:first-child a[href$=".iso"]::before {
+        content: '⚙️';
+}
+
+/* Configuration */
+#list tbody tr td:first-child a[href$=".ini"]::before,
+#list tbody tr td:first-child a[href$=".cfg"]::before,
+#list tbody tr td:first-child a[href$=".conf"]::before,
+#list tbody tr td:first-child a[href$=".yaml"]::before,
+#list tbody tr td:first-child a[href$=".yml"]::before,
+#list tbody tr td:first-child a[href$=".toml"]::before {
+        content: '🔧';
+}
+
+/* =========================
+   Parent directory hover
+   ========================= */
 .parent a:hover {
-	color: #2A2A2A;
+        color: var(--parent-hover);
 }
 
+/* =========================
+   Footer
+   ========================= */
 footer {
-	font-size:12px;
-	text-align:center;
+        font-size: 12px;
+        text-align: center;
 }
+
 footer a {
-	text-decoration: underline;
-	color: var(--footer-link-color);
+        text-decoration: underline;
+        color: var(--footer-link);
+}
+
+/* =========================
+   Breadcrumb navigation
+   ========================= */
+.breadcrumb-nav {
+        margin: 1rem 0 1.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-elev);
+        border-radius: 8px;
+        border: 1px solid var(--rule);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+}
+
+.breadcrumb {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        font-size: 0.95rem;
+}
+
+.breadcrumb li {
+        display: flex;
+        align-items: center;
+}
+
+.breadcrumb li:not(:last-child)::after {
+        content: '/';
+        margin-left: 0.5rem;
+        color: var(--muted);
+}
+
+.breadcrumb a {
+        color: var(--link);
+        text-decoration: none;
+        transition: color 150ms ease-in;
+}
+
+.breadcrumb a:hover {
+        text-decoration: underline;
+        color: var(--accent);
+}
+
+.breadcrumb-current {
+        color: var(--fg);
+        font-weight: 500;
+}
+
+/* =========================
+   Copy page URL button
+   ========================= */
+.copy-page-url-btn {
+        appearance: none;
+        border: 1px solid var(--rule);
+        background: var(--bg);
+        color: var(--fg);
+        padding: 0.5rem 1rem;
+        margin-left: 1rem;
+        border-radius: 6px;
+        font: 400 0.85rem system-ui, sans-serif;
+        cursor: pointer;
+        transition: all 150ms ease-in;
+}
+
+.copy-page-url-btn:hover {
+        background: var(--row-hover);
+        border-color: var(--accent);
+}
+
+.copy-page-url-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+}
+
+/* =========================
+   Pagination controls
+   ========================= */
+.pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 1rem;
+}
+
+.pagination-info {
+        color: var(--muted);
+        font-size: 0.9rem;
+}
+
+.pagination-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+}
+
+.pagination-btn {
+        appearance: none;
+        border: 1px solid var(--rule);
+        background: var(--bg-elev);
+        color: var(--fg);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        font: 400 0.9rem system-ui, sans-serif;
+        cursor: pointer;
+        transition: all 150ms ease-in;
+        min-width: 2.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+        background: var(--row-hover);
+        border-color: var(--accent);
+}
+
+.pagination-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+}
+
+.pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+}
+
+.pagination-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+        font-weight: 600;
+}
+
+.pagination-ellipsis {
+        color: var(--muted);
+        padding: 0 0.25rem;
+}
+
+/* =========================
+   Responsive: mobile layout
+   Converts the table into stacked cards and adjusts controls
+   ========================= */
+@media (max-width: 720px) {
+        body {
+                padding: clamp(16px, 4vw, 32px);
+                box-shadow: none;
+        }
+
+        /* Stack table elements as blocks for small screens */
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+                display: block;
+                width: 100%;
+        }
+
+        table {
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
+                overflow: visible;
+        }
+
+        thead {
+                display: none;                               /* hide header row on mobile */
+        }
+
+        tr {
+                margin-bottom: 16px;
+                border: 1px solid var(--td-border);
+                border-radius: 12px;
+                box-shadow: var(--table-shadow);
+                overflow: hidden;
+                background: var(--bg-elev);
+        }
+
+        body.theme-dark tr {
+                box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        td {
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--td-border);
+                display: flex;
+                justify-content: space-between;
+                gap: 12px;
+        }
+
+        td:last-child {
+                border-bottom: none;
+                text-align: left;
+        }
+
+        td::before {
+                content: attr(data-label);                   /* adds pseudo header */
+                font-weight: 600;
+                color: rgba(27, 31, 42, 0.7);
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+        }
+
+        body.theme-dark td::before {
+                color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* Fallback labels if data-label not provided */
+        td:nth-of-type(1):not([data-label])::before {
+                content: 'Name';
+        }
+
+        td:nth-of-type(2):not([data-label])::before {
+                content: 'Last modified';
+        }
+
+        td:nth-of-type(3):not([data-label])::before {
+                content: 'Size';
+        }
+
+        td:nth-of-type(4):not([data-label])::before {
+                content: 'Description';
+        }
+
+        /* Mobile breadcrumb styles */
+        .breadcrumb {
+                font-size: 0.85rem;
+        }
+
+        .breadcrumb-nav {
+                padding: 0.5rem 0.75rem;
+        }
+
+        /* Mobile pagination styles */
+        .pagination-btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+                min-width: 2.25rem;
+        }
+
+        .pagination-info {
+                font-size: 0.85rem;
+        }
+
+        /* Mobile copy button styles */
+        .copy-page-url-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.75rem;
+                margin-left: 0;
+                margin-top: 0.5rem;
+        }
 }
