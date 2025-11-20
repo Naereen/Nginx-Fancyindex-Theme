@@ -54,7 +54,7 @@
                     // Sanitize HTML with DOMPurify before inserting
                     const clean = DOMPurify.sanitize(html, {
                         ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'u', 'code', 'pre', 'a', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'blockquote', 'hr', 'img'],
-                        ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id']
+                        ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id', 'width', 'height', 'loading']
                     });
                     target.innerHTML = clean;
                 })
