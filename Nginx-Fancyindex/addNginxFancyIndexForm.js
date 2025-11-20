@@ -106,7 +106,7 @@
                                         copyBtn.textContent = originalText;
                                 }, 2000);
                         } catch (err) {
-                                console.log(err)
+                                console.error(err)
                                 const originalText = copyBtn.textContent;
                                 copyBtn.textContent = 'Failed';
                                 setTimeout(() => {
