@@ -697,11 +697,11 @@ footer a {
         }
 
         td:nth-of-type(2):not([data-label])::before {
-                content: 'Last modified';
+                content: 'Size';
         }
 
         td:nth-of-type(3):not([data-label])::before {
-                content: 'Size';
+                content: 'Last modified';
         }
 
         td:nth-of-type(4):not([data-label])::before {
