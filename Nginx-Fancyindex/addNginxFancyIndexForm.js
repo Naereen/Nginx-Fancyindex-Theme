@@ -388,8 +388,7 @@
                 const isTyping = activeElement &&
                         (activeElement.tagName === 'INPUT' ||
                          activeElement.tagName === 'TEXTAREA' ||
-                         activeElement.isContentEditable) &&
-                        activeElement !== input;
+                         activeElement.isContentEditable);
 
                 // '/' or 'Ctrl+F' - Focus search
                 if ((event.key === '/' || (event.ctrlKey && event.key === 'f')) && !isTyping) {
